@@ -1,18 +1,36 @@
 var m = require("makerjs");
 
-function singleRowActuatorModel(columnActuatorWidth, columnActuatorHeight) {
+function singleRowActuatorModel(columnActuatorWidth, columnActuatorHeight, numberOfRows, cellHeight, spaceBetweenDots) {
   var actuator = new m.models.Oval(columnActuatorWidth, columnActuatorHeight);
-  var innerWidth = columnActuatorWidth / 2;
-  var topHole = new m.models.Oval(innerWidth, innerWidth * 2);
-  topHole.origin = [innerWidth / 2, innerWidth / 2];
-
-  var innerHeight = columnActuatorHeight - innerWidth * 2 - innerWidth / 2;
-  var bottomHole = new m.models.Oval(innerWidth, innerWidth * 2);
-  bottomHole.origin = [innerWidth / 2, innerHeight];
+  var innerWidth = columnActuatorWidth/2;
+  var topHole = new m.models.Oval(innerWidth, innerWidth*2);
+  topHole.origin = [innerWidth/2, innerWidth/2 ];
+  
+  var pins = { models: {} };
+  
+  var innerPin1, innerPin2, innerPin3;
+  for (var i = 1; i <= numberOfRows; i++ ) {
+    innerPin1 = new m.models.Oval(innerWidth, innerWidth);
+    innerPin1.origin = [innerWidth/2, i *  cellHeight];
+    pins.models[i + " one"] = innerPin1;
+    
+    innerPin2 = new m.models.Oval(innerWidth, innerWidth);
+    innerPin2.origin = [innerWidth/2, (i *  (cellHeight)) + spaceBetweenDots];
+    pins.models[i + " two"] = innerPin2;
+    
+    innerPin3 = new m.models.Oval(innerWidth, innerWidth);
+    innerPin3.origin = [innerWidth/2, (i *  (cellHeight)) + (spaceBetweenDots*2)];
+    pins.models[i + " three"] = innerPin3;
+  }
+  
+  var innerHeight = columnActuatorHeight - innerWidth*2 - innerWidth/2;
+  var bottomHole = new m.models.Oval(innerWidth, innerWidth*2);
+  bottomHole.origin = [innerWidth/2, innerHeight];
   this.models = {
     s1: actuator,
     topHole: topHole,
-    bottomHole: bottomHole
+    bottomHole: bottomHole,
+    pins: pins
   };
 }
 
@@ -35,7 +53,10 @@ function brailleGuide(
 
   var singleRowActuator = new singleRowActuatorModel(
     columnActuatorWidth,
-    columnActuatorHeight
+    columnActuatorHeight,
+    numberOfRows,
+    cellHeight,
+    spaceBetweenDots
   );
   this.models = {
     columnActuators: m.layout.cloneToRow(
