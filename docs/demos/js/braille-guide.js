@@ -1,10 +1,16 @@
 var m = require("makerjs");
 
 function singleRowActuatorModel(columnActuatorWidth, columnActuatorHeight, numberOfRows, cellHeight, spaceBetweenDots) {
-  var actuator = new m.models.Oval(columnActuatorWidth, columnActuatorHeight);
+  var border = new m.models.Oval(columnActuatorWidth, columnActuatorHeight);
+  
   var innerWidth = columnActuatorWidth/2;
+  var innerHeight = columnActuatorHeight - innerWidth*2 - innerWidth/2;
+  
   var topHole = new m.models.Oval(innerWidth, innerWidth*2);
-  topHole.origin = [innerWidth/2, innerWidth/2 ];
+  topHole.origin = [innerWidth/2, innerHeight];
+  
+  var bottomHole = new m.models.Oval(innerWidth, innerWidth*2);
+  bottomHole.origin = [innerWidth/2, innerWidth/2 ];
   
   var pins = { models: {} };
   
@@ -23,15 +29,33 @@ function singleRowActuatorModel(columnActuatorWidth, columnActuatorHeight, numbe
     pins.models[i + " three"] = innerPin3;
   }
   
-  var innerHeight = columnActuatorHeight - innerWidth*2 - innerWidth/2;
-  var bottomHole = new m.models.Oval(innerWidth, innerWidth*2);
-  bottomHole.origin = [innerWidth/2, innerHeight];
+  var arcBottomLeft = new makerjs.models.Oval(innerWidth, innerWidth*2);
+  arcBottomLeft.origin = [0 - (innerWidth/2), (cellHeight) - spaceBetweenDots * 2];
+
+  var arcBottomRight = new makerjs.models.Oval(innerWidth, innerWidth*2);
+  arcBottomRight.origin = [innerWidth + (innerWidth/2), (cellHeight) - spaceBetweenDots * 2];
+
+  var arcTopLeft = new makerjs.models.Oval(innerWidth, innerWidth*2);
+  arcTopLeft.origin = [0 - (innerWidth/2), columnActuatorHeight -cellHeight];
+
+  var arcTopRight = new makerjs.models.Oval(innerWidth, innerWidth*2);
+  arcTopRight.origin = [innerWidth + (innerWidth/2), columnActuatorHeight - cellHeight];
+
   this.models = {
-    s1: actuator,
+    border: border,
     topHole: topHole,
     bottomHole: bottomHole,
-    pins: pins
+    pins: pins,
+    arcBottomLeft: arcBottomLeft,
+    arcBottomRight: arcBottomRight,
+    arcTopLeft: arcTopLeft,
+    arcTopRight: arcTopRight
   };
+  
+  makerjs.model.combine(this.models.border, this.models.arcBottomLeft, false, true, true, false);
+  makerjs.model.combine(this.models.border, this.models.arcBottomRight, false, true, true, false);
+  makerjs.model.combine(this.models.border, this.models.arcTopLeft, false, true, true, false);
+  makerjs.model.combine(this.models.border, this.models.arcTopRight, false, true, true, false);
 }
 
 function brailleGuide(
