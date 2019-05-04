@@ -1,61 +1,108 @@
 var m = require("makerjs");
 
-function singleRowActuatorModel(columnActuatorWidth, columnActuatorHeight, numberOfRows, cellHeight, spaceBetweenDots) {
+function singleRowActuatorModel(
+  columnActuatorWidth,
+  columnActuatorHeight,
+  numberOfRows,
+  cellHeight,
+  spaceBetweenDots,
+  showRowActuators
+) {
   var border = new m.models.Oval(columnActuatorWidth, columnActuatorHeight);
-  
-  var innerWidth = columnActuatorWidth/2;
-  var innerHeight = columnActuatorHeight - innerWidth*2 - innerWidth/2;
-  
-  var topHole = new m.models.Oval(innerWidth, innerWidth*2);
-  topHole.origin = [innerWidth/2, innerHeight];
-  
-  var bottomHole = new m.models.Oval(innerWidth, innerWidth*2);
-  bottomHole.origin = [innerWidth/2, innerWidth/2 ];
-  
+
+  var innerWidth = columnActuatorWidth / 2;
+  var innerHeight = columnActuatorHeight - innerWidth * 2 - innerWidth / 2;
+
+  var topHole = new m.models.Oval(innerWidth, innerWidth * 2);
+  topHole.origin = [innerWidth / 2, innerHeight];
+
+  var bottomHole = new m.models.Oval(innerWidth, innerWidth * 2);
+  bottomHole.origin = [innerWidth / 2, innerWidth / 2];
+
   var pins = { models: {} };
-  
+
   var innerPin1, innerPin2, innerPin3;
-  for (var i = 1; i <= numberOfRows; i++ ) {
+  for (var i = 1; i <= numberOfRows; i++) {
     innerPin1 = new m.models.Oval(innerWidth, innerWidth);
-    innerPin1.origin = [innerWidth/2, i *  cellHeight];
+    innerPin1.origin = [innerWidth / 2, i * cellHeight];
     pins.models[i + " one"] = innerPin1;
-    
+
     innerPin2 = new m.models.Oval(innerWidth, innerWidth);
-    innerPin2.origin = [innerWidth/2, (i *  (cellHeight)) + spaceBetweenDots];
+    innerPin2.origin = [innerWidth / 2, i * cellHeight + spaceBetweenDots];
     pins.models[i + " two"] = innerPin2;
-    
+
     innerPin3 = new m.models.Oval(innerWidth, innerWidth);
-    innerPin3.origin = [innerWidth/2, (i *  (cellHeight)) + (spaceBetweenDots*2)];
+    innerPin3.origin = [innerWidth / 2, i * cellHeight + spaceBetweenDots * 2];
     pins.models[i + " three"] = innerPin3;
   }
-  
-  var arcBottomLeft = new makerjs.models.Oval(innerWidth, innerWidth*2);
-  arcBottomLeft.origin = [0 - (innerWidth/2), (cellHeight) - spaceBetweenDots * 2];
 
-  var arcBottomRight = new makerjs.models.Oval(innerWidth, innerWidth*2);
-  arcBottomRight.origin = [innerWidth + (innerWidth/2), (cellHeight) - spaceBetweenDots * 2];
+  var arcBottomLeft = new makerjs.models.Oval(innerWidth, innerWidth * 2);
+  arcBottomLeft.origin = [
+    0 - innerWidth / 2,
+    cellHeight - spaceBetweenDots * 2
+  ];
 
-  var arcTopLeft = new makerjs.models.Oval(innerWidth, innerWidth*2);
-  arcTopLeft.origin = [0 - (innerWidth/2), columnActuatorHeight -cellHeight];
+  var arcBottomRight = new makerjs.models.Oval(innerWidth, innerWidth * 2);
+  arcBottomRight.origin = [
+    innerWidth + innerWidth / 2,
+    cellHeight - spaceBetweenDots * 2
+  ];
 
-  var arcTopRight = new makerjs.models.Oval(innerWidth, innerWidth*2);
-  arcTopRight.origin = [innerWidth + (innerWidth/2), columnActuatorHeight - cellHeight];
+  var arcTopLeft = new makerjs.models.Oval(innerWidth, innerWidth * 2);
+  arcTopLeft.origin = [0 - innerWidth / 2, columnActuatorHeight - cellHeight];
+
+  var arcTopRight = new makerjs.models.Oval(innerWidth, innerWidth * 2);
+  arcTopRight.origin = [
+    innerWidth + innerWidth / 2,
+    columnActuatorHeight - cellHeight
+  ];
 
   this.models = {
-    border: border,
-    topHole: topHole,
-    bottomHole: bottomHole,
-    pins: pins,
-    arcBottomLeft: arcBottomLeft,
-    arcBottomRight: arcBottomRight,
-    arcTopLeft: arcTopLeft,
-    arcTopRight: arcTopRight
+    pins: pins
   };
-  
-  makerjs.model.combine(this.models.border, this.models.arcBottomLeft, false, true, true, false);
-  makerjs.model.combine(this.models.border, this.models.arcBottomRight, false, true, true, false);
-  makerjs.model.combine(this.models.border, this.models.arcTopLeft, false, true, true, false);
-  makerjs.model.combine(this.models.border, this.models.arcTopRight, false, true, true, false);
+
+  if (showRowActuators) {
+    this.models.border = border;
+    this.models.topHole = topHole;
+    this.models.bottomHole = bottomHole;
+    this.models.arcBottomLeft = arcBottomLeft;
+    this.models.arcBottomRight = arcBottomRight;
+    this.models.arcTopLeft = arcTopLeft;
+    this.models.arcTopRight = arcTopRight;
+  }
+
+  makerjs.model.combine(
+    this.models.border,
+    this.models.arcBottomLeft,
+    false,
+    true,
+    true,
+    false
+  );
+  makerjs.model.combine(
+    this.models.border,
+    this.models.arcBottomRight,
+    false,
+    true,
+    true,
+    false
+  );
+  makerjs.model.combine(
+    this.models.border,
+    this.models.arcTopLeft,
+    false,
+    true,
+    true,
+    false
+  );
+  makerjs.model.combine(
+    this.models.border,
+    this.models.arcTopRight,
+    false,
+    true,
+    true,
+    false
+  );
 }
 
 function brailleGuide(
@@ -63,7 +110,9 @@ function brailleGuide(
   numberOfRows,
   numberOfColumns,
   pageWidth,
-  pageHeight
+  pageHeight,
+  showPageFrame,
+  showRowActuators
 ) {
   var marginTop = 10;
   var marginBottom = 10;
@@ -80,16 +129,22 @@ function brailleGuide(
     columnActuatorHeight,
     numberOfRows,
     cellHeight,
-    spaceBetweenDots
+    spaceBetweenDots,
+    showRowActuators
   );
   this.models = {
     columnActuators: m.layout.cloneToRow(
       singleRowActuator,
       numberOfColumns * 2,
       0
-    ),
-    pageBorder: new makerjs.models.Rectangle(pageWidth, pageHeight)
+    )
   };
+  if (showPageFrame) {
+    this.models.pageBorder = new makerjs.models.Rectangle(
+      pageWidth,
+      pageHeight
+    );
+  }
 }
 
 brailleGuide.metaParameters = [
@@ -103,7 +158,9 @@ brailleGuide.metaParameters = [
   { title: "number of rows", type: "range", min: 1, max: 25, value: 5 },
   { title: "number of columns", type: "range", min: 1, max: 40, value: 2 },
   { title: "page width", type: "range", min: 20, max: 210, value: 210 },
-  { title: "page height", type: "range", min: 20, max: 297, value: 290 }
+  { title: "page height", type: "range", min: 20, max: 297, value: 290 },
+  { title: "page frame", type: "bool", value: false },
+  { title: "column actuators", type: "bool", value: false }
 ];
 
 module.exports = brailleGuide;
