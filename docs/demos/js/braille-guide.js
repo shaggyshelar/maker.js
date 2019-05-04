@@ -1,5 +1,21 @@
 var m = require("makerjs");
 
+function singleRowActuatorModel(columnActuatorWidth, columnActuatorHeight) {
+  var actuator = new m.models.Oval(columnActuatorWidth, columnActuatorHeight);
+  var innerWidth = columnActuatorWidth / 2;
+  var topHole = new m.models.Oval(innerWidth, innerWidth * 2);
+  topHole.origin = [innerWidth / 2, innerWidth / 2];
+
+  var innerHeight = columnActuatorHeight - innerWidth * 2 - innerWidth / 2;
+  var bottomHole = new m.models.Oval(innerWidth, innerWidth * 2);
+  bottomHole.origin = [innerWidth / 2, innerHeight];
+  this.models = {
+    s1: actuator,
+    topHole: topHole,
+    bottomHole: bottomHole
+  };
+}
+
 function brailleGuide(
   spaceBetweenDots,
   numberOfRows,
@@ -17,12 +33,16 @@ function brailleGuide(
   var columnActuatorHeight =
     cellHeight * numberOfRows + marginTop + marginBottom;
 
-  var singleRowActuator = new m.models.Oval(
+  var singleRowActuator = new singleRowActuatorModel(
     columnActuatorWidth,
     columnActuatorHeight
   );
   this.models = {
-    columnActuators: m.layout.cloneToRow(singleRowActuator, numberOfColumns * 2, 0),
+    columnActuators: m.layout.cloneToRow(
+      singleRowActuator,
+      numberOfColumns * 2,
+      0
+    ),
     pageBorder: new makerjs.models.Rectangle(pageWidth, pageHeight)
   };
 }
