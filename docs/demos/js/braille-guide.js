@@ -4,6 +4,7 @@ function singleRowActuatorModel(
   columnActuatorWidth,
   columnActuatorHeight,
   numberOfRows,
+  cellWidth,
   cellHeight,
   spaceBetweenDots,
   showRowActuators,
@@ -30,7 +31,7 @@ function singleRowActuatorModel(
   if (showPins) {
     for (var i = 1; i <= numberOfRows; i++) {
       innerPin1 = new m.models.Oval(innerWidth, innerWidth);
-      innerPin1.origin = [innerWidth/2, i * cellHeight + pinSpace];
+      innerPin1.origin = [innerWidth / 2, i * cellHeight + pinSpace];
       pins.models[i + " one"] = innerPin1;
 
       innerPin2 = new m.models.Oval(innerWidth, innerWidth);
@@ -43,22 +44,22 @@ function singleRowActuatorModel(
     }
   }
 
-  var arcBottomLeft = new makerjs.models.Oval(innerWidth, innerWidth * 2);
+  var arcBottomLeft = new m.models.Oval(innerWidth, innerWidth * 2);
   arcBottomLeft.origin = [
     0 - innerWidth / 2,
     cellHeight - spaceBetweenDots * 2
   ];
 
-  var arcBottomRight = new makerjs.models.Oval(innerWidth, innerWidth * 2);
+  var arcBottomRight = new m.models.Oval(innerWidth, innerWidth * 2);
   arcBottomRight.origin = [
     innerWidth + innerWidth / 2,
     cellHeight - spaceBetweenDots * 2
   ];
 
-  var arcTopLeft = new makerjs.models.Oval(innerWidth, innerWidth * 2);
+  var arcTopLeft = new m.models.Oval(innerWidth, innerWidth * 2);
   arcTopLeft.origin = [0 - innerWidth / 2, columnActuatorHeight - cellHeight];
 
-  var arcTopRight = new makerjs.models.Oval(innerWidth, innerWidth * 2);
+  var arcTopRight = new m.models.Oval(innerWidth, innerWidth * 2);
   arcTopRight.origin = [
     innerWidth + innerWidth / 2,
     columnActuatorHeight - cellHeight
@@ -78,7 +79,7 @@ function singleRowActuatorModel(
     // this.models.arcTopRight = arcTopRight;
   }
 
-  makerjs.model.combine(
+  m.model.combine(
     this.models.border,
     this.models.arcBottomLeft,
     false,
@@ -86,7 +87,7 @@ function singleRowActuatorModel(
     true,
     false
   );
-  makerjs.model.combine(
+  m.model.combine(
     this.models.border,
     this.models.arcBottomRight,
     false,
@@ -94,7 +95,7 @@ function singleRowActuatorModel(
     true,
     false
   );
-  makerjs.model.combine(
+  m.model.combine(
     this.models.border,
     this.models.arcTopLeft,
     false,
@@ -102,7 +103,7 @@ function singleRowActuatorModel(
     true,
     false
   );
-  makerjs.model.combine(
+  m.model.combine(
     this.models.border,
     this.models.arcTopRight,
     false,
@@ -122,10 +123,6 @@ function brailleGuide(
   showRowActuators,
   showPins
 ) {
-  var marginTop = 10;
-  var marginBottom = 10;
-  var marginLeft = 10;
-  var marginRight = 10;
   var cellHeight = spaceBetweenDots * 4;
   var cellWidth = spaceBetweenDots * 3;
   var columnActuatorWidth = cellWidth / 2;
@@ -136,16 +133,48 @@ function brailleGuide(
     columnActuatorHeight,
     numberOfRows,
     cellHeight,
+    cellWidth,
     spaceBetweenDots,
     showRowActuators,
     showPins
   );
+
+  var columnActuators = { models: {} };
+  var rowLeft, rowRight;
+  for (var i = 0; i < numberOfColumns; i++) {
+    rowLeft = new singleRowActuatorModel(
+      columnActuatorWidth,
+      columnActuatorHeight,
+      numberOfRows,
+      cellHeight,
+      cellWidth,
+      spaceBetweenDots,
+      showRowActuators,
+      showPins
+    );
+    rowLeft.origin = [i * cellWidth, 0];
+    columnActuators.models[i + " rowLeft"] = rowLeft;
+
+    rowRight = new singleRowActuatorModel(
+      columnActuatorWidth,
+      columnActuatorHeight,
+      numberOfRows,
+      cellHeight,
+      cellWidth,
+      spaceBetweenDots,
+      showRowActuators,
+      showPins
+    );
+    rowRight.origin = [i * cellWidth + columnActuatorWidth, 0];
+    columnActuators.models[i + " rowRight"] = rowRight;
+  }
   this.models = {
-    columnActuators: m.layout.cloneToRow(
-      singleRowActuator,
-      numberOfColumns * 2,
-      0
-    )
+    // columnActuators: m.layout.cloneToRow(
+    //   singleRowActuator,
+    //   numberOfColumns * 2,
+    //   0
+    // )
+    columnActuators: columnActuators
   };
   if (showPageFrame) {
     this.models.pageBorder = new makerjs.models.Rectangle(
@@ -163,7 +192,7 @@ brailleGuide.metaParameters = [
     max: 10,
     value: 2
   },
-  { title: "number of rows", type: "range", min: 1, max: 25, value: 1 },
+  { title: "number of rows", type: "range", min: 1, max: 25, value: 3 },
   { title: "number of columns", type: "range", min: 1, max: 40, value: 2 },
   { title: "page width", type: "range", min: 20, max: 210, value: 210 },
   { title: "page height", type: "range", min: 20, max: 297, value: 290 },
