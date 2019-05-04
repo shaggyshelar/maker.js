@@ -16,27 +16,30 @@ function singleRowActuatorModel(
 
   var innerWidth = columnActuatorWidth / 2;
   var topHole = new m.models.Oval(innerWidth, innerWidth * 2);
-  topHole.origin = [innerWidth / 2, columnActuatorHeight + (cellHeight * 2) - (innerWidth * 2) - innerWidth / 2];
+  topHole.origin = [
+    innerWidth / 2,
+    columnActuatorHeight + cellHeight * 2 - innerWidth * 2 - innerWidth / 2
+  ];
 
   var bottomHole = new m.models.Oval(innerWidth, innerWidth * 2);
   bottomHole.origin = [innerWidth / 2, innerWidth / 2];
 
   var pins = { models: {} };
-
+  var pinSpace = cellHeight / 10;
   var innerPin1, innerPin2, innerPin3;
   if (showPins) {
     for (var i = 1; i <= numberOfRows; i++) {
       innerPin1 = new m.models.Oval(innerWidth, innerWidth);
-      innerPin1.origin = [innerWidth / 2, i * cellHeight + 1];
-      //pins.models[i + " one"] = innerPin1;
+      innerPin1.origin = [innerWidth/2, i * cellHeight + pinSpace];
+      pins.models[i + " one"] = innerPin1;
 
       innerPin2 = new m.models.Oval(innerWidth, innerWidth);
-      innerPin2.origin = [innerWidth / 2, i * cellHeight + 4];
-      //pins.models[i + " two"] = innerPin2;
+      innerPin2.origin = [innerWidth / 2, i * cellHeight + 4 * pinSpace];
+      pins.models[i + " two"] = innerPin2;
 
       innerPin3 = new m.models.Oval(innerWidth, innerWidth);
-      innerPin3.origin = [innerWidth / 2, i * cellHeight + 7];
-      //pins.models[i + " three"] = innerPin3;
+      innerPin3.origin = [innerWidth / 2, i * cellHeight + 7 * pinSpace];
+      pins.models[i + " three"] = innerPin3;
     }
   }
 
@@ -160,7 +163,7 @@ brailleGuide.metaParameters = [
     max: 10,
     value: 2
   },
-  { title: "number of rows", type: "range", min: 1, max: 25, value: 5 },
+  { title: "number of rows", type: "range", min: 1, max: 25, value: 1 },
   { title: "number of columns", type: "range", min: 1, max: 40, value: 2 },
   { title: "page width", type: "range", min: 20, max: 210, value: 210 },
   { title: "page height", type: "range", min: 20, max: 297, value: 290 },
