@@ -6,15 +6,17 @@ function singleRowActuatorModel(
   numberOfRows,
   cellHeight,
   spaceBetweenDots,
-  showRowActuators
+  showRowActuators,
+  showPins
 ) {
-  var border = new m.models.Oval(columnActuatorWidth, columnActuatorHeight);
+  var border = new m.models.Oval(
+    columnActuatorWidth,
+    columnActuatorHeight + cellHeight * 2
+  );
 
   var innerWidth = columnActuatorWidth / 2;
-  var innerHeight = columnActuatorHeight - innerWidth * 2 - innerWidth / 2;
-
   var topHole = new m.models.Oval(innerWidth, innerWidth * 2);
-  topHole.origin = [innerWidth / 2, innerHeight];
+  topHole.origin = [innerWidth / 2, columnActuatorHeight + (cellHeight * 2) - (innerWidth * 2) - innerWidth / 2];
 
   var bottomHole = new m.models.Oval(innerWidth, innerWidth * 2);
   bottomHole.origin = [innerWidth / 2, innerWidth / 2];
@@ -22,18 +24,20 @@ function singleRowActuatorModel(
   var pins = { models: {} };
 
   var innerPin1, innerPin2, innerPin3;
-  for (var i = 1; i <= numberOfRows; i++) {
-    innerPin1 = new m.models.Oval(innerWidth, innerWidth);
-    innerPin1.origin = [innerWidth / 2, i * cellHeight];
-    pins.models[i + " one"] = innerPin1;
+  if (showPins) {
+    for (var i = 1; i <= numberOfRows; i++) {
+      innerPin1 = new m.models.Oval(innerWidth, innerWidth);
+      innerPin1.origin = [innerWidth / 2, i * cellHeight + 1];
+      //pins.models[i + " one"] = innerPin1;
 
-    innerPin2 = new m.models.Oval(innerWidth, innerWidth);
-    innerPin2.origin = [innerWidth / 2, i * cellHeight + spaceBetweenDots];
-    pins.models[i + " two"] = innerPin2;
+      innerPin2 = new m.models.Oval(innerWidth, innerWidth);
+      innerPin2.origin = [innerWidth / 2, i * cellHeight + 4];
+      //pins.models[i + " two"] = innerPin2;
 
-    innerPin3 = new m.models.Oval(innerWidth, innerWidth);
-    innerPin3.origin = [innerWidth / 2, i * cellHeight + spaceBetweenDots * 2];
-    pins.models[i + " three"] = innerPin3;
+      innerPin3 = new m.models.Oval(innerWidth, innerWidth);
+      innerPin3.origin = [innerWidth / 2, i * cellHeight + 7];
+      //pins.models[i + " three"] = innerPin3;
+    }
   }
 
   var arcBottomLeft = new makerjs.models.Oval(innerWidth, innerWidth * 2);
@@ -65,10 +69,10 @@ function singleRowActuatorModel(
     this.models.border = border;
     this.models.topHole = topHole;
     this.models.bottomHole = bottomHole;
-    this.models.arcBottomLeft = arcBottomLeft;
-    this.models.arcBottomRight = arcBottomRight;
-    this.models.arcTopLeft = arcTopLeft;
-    this.models.arcTopRight = arcTopRight;
+    // this.models.arcBottomLeft = arcBottomLeft;
+    // this.models.arcBottomRight = arcBottomRight;
+    // this.models.arcTopLeft = arcTopLeft;
+    // this.models.arcTopRight = arcTopRight;
   }
 
   makerjs.model.combine(
@@ -112,7 +116,8 @@ function brailleGuide(
   pageWidth,
   pageHeight,
   showPageFrame,
-  showRowActuators
+  showRowActuators,
+  showPins
 ) {
   var marginTop = 10;
   var marginBottom = 10;
@@ -121,8 +126,7 @@ function brailleGuide(
   var cellHeight = spaceBetweenDots * 4;
   var cellWidth = spaceBetweenDots * 3;
   var columnActuatorWidth = cellWidth / 2;
-  var columnActuatorHeight =
-    cellHeight * numberOfRows + marginTop + marginBottom;
+  var columnActuatorHeight = cellHeight * numberOfRows;
 
   var singleRowActuator = new singleRowActuatorModel(
     columnActuatorWidth,
@@ -130,7 +134,8 @@ function brailleGuide(
     numberOfRows,
     cellHeight,
     spaceBetweenDots,
-    showRowActuators
+    showRowActuators,
+    showPins
   );
   this.models = {
     columnActuators: m.layout.cloneToRow(
@@ -153,14 +158,15 @@ brailleGuide.metaParameters = [
     type: "range",
     min: 2,
     max: 10,
-    value: 2.5
+    value: 2
   },
   { title: "number of rows", type: "range", min: 1, max: 25, value: 5 },
   { title: "number of columns", type: "range", min: 1, max: 40, value: 2 },
   { title: "page width", type: "range", min: 20, max: 210, value: 210 },
   { title: "page height", type: "range", min: 20, max: 297, value: 290 },
   { title: "page frame", type: "bool", value: false },
-  { title: "column actuators", type: "bool", value: false }
+  { title: "column actuators", type: "bool", value: true },
+  { title: "show pins", type: "bool", value: true }
 ];
 
 module.exports = brailleGuide;
