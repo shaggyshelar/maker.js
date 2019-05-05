@@ -110,6 +110,29 @@ function singleRowActuatorModel(
   );
 }
 
+function guideModel(numberOfRows, numberOfColumns, cellHeight, cellWidth) {
+  var border = new m.models.Rectangle(
+    numberOfColumns * cellWidth,
+    numberOfRows * cellHeight + cellHeight * 2
+  );
+
+  var middleColumn;
+
+  this.paths = {};
+  var columnYValue = numberOfRows * cellHeight + cellHeight * 2;
+  for (var i = 1; i <= numberOfColumns; i++) {
+    middleColumn = new m.paths.Line(
+      [i * cellWidth, 0],
+      [i * cellWidth, columnYValue]
+    );
+    this.paths[i + " one"] = middleColumn;
+  }
+
+  this.models = {
+    border: border
+  };
+}
+
 function brailleGuide(
   spaceBetweenDots,
   numberOfRows,
@@ -118,7 +141,9 @@ function brailleGuide(
   pageHeight,
   showPageFrame,
   showRowActuators,
-  showPins
+  showPins,
+  showGuide,
+  showBase
 ) {
   var cellHeight = spaceBetweenDots * 4;
   var cellWidth = spaceBetweenDots * 3;
@@ -163,6 +188,14 @@ function brailleGuide(
       pageHeight
     );
   }
+  if (showGuide) {
+    this.models.guide = new guideModel(
+      numberOfRows,
+      numberOfColumns,
+      cellHeight,
+      cellWidth
+    );
+  }
 }
 
 brailleGuide.metaParameters = [
@@ -178,8 +211,10 @@ brailleGuide.metaParameters = [
   { title: "page width", type: "range", min: 20, max: 210, value: 210 },
   { title: "page height", type: "range", min: 20, max: 297, value: 290 },
   { title: "page frame", type: "bool", value: false },
-  { title: "column actuators", type: "bool", value: true },
-  { title: "show pins", type: "bool", value: true }
+  { title: "column actuators", type: "bool", value: false },
+  { title: "show pins", type: "bool", value: true },
+  { title: "show guides", type: "bool", value: true },
+  { title: "show base", type: "bool", value: true }
 ];
 
 module.exports = brailleGuide;
