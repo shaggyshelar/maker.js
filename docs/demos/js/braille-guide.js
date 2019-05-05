@@ -116,21 +116,29 @@ function guideModel(numberOfRows, numberOfColumns, cellHeight, cellWidth) {
     numberOfRows * cellHeight + cellHeight * 2
   );
 
-  var middleColumn;
-
   this.paths = {};
+  this.models = {
+    border: border
+  };
+  var middleColumn, topCircle, bottomCircle;
+  var innerWidth = cellWidth / 2;
+  var innerHeight = cellHeight * (numberOfRows + 1) + innerWidth / 2;
   var columnYValue = numberOfRows * cellHeight + cellHeight * 2;
-  for (var i = 1; i <= numberOfColumns; i++) {
+  for (var i = 1; i < numberOfColumns; i++) {
+    topCircle = new m.models.Ellipse(cellWidth / 8, cellWidth / 8);
+    topCircle.origin = [i * cellWidth, innerHeight];
+    this.models[i + " topCircle"] = topCircle;
+
+    bottomCircle = new m.models.Ellipse(cellWidth / 8, cellWidth / 8);
+    bottomCircle.origin = [i * cellWidth, cellHeight - cellWidth / 4];
+    this.models[i + " bottomCircle"] = bottomCircle;
+
     middleColumn = new m.paths.Line(
       [i * cellWidth, 0],
       [i * cellWidth, columnYValue]
     );
     this.paths[i + " one"] = middleColumn;
   }
-
-  this.models = {
-    border: border
-  };
 }
 
 function brailleGuide(
@@ -211,7 +219,7 @@ brailleGuide.metaParameters = [
   { title: "page width", type: "range", min: 20, max: 210, value: 210 },
   { title: "page height", type: "range", min: 20, max: 297, value: 290 },
   { title: "page frame", type: "bool", value: false },
-  { title: "column actuators", type: "bool", value: false },
+  { title: "column actuators", type: "bool", value: true },
   { title: "show pins", type: "bool", value: true },
   { title: "show guides", type: "bool", value: true },
   { title: "show base", type: "bool", value: true }
