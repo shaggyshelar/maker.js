@@ -12,7 +12,7 @@ function singleRowActuatorModel(
 ) {
   var border = new m.models.Oval(
     columnActuatorWidth,
-    columnActuatorHeight + (cellHeight * 2)
+    columnActuatorHeight + cellHeight * 2
   );
 
   var innerWidth = columnActuatorWidth / 2;
@@ -45,24 +45,21 @@ function singleRowActuatorModel(
   }
 
   var arcBottomLeft = new m.models.Oval(innerWidth, innerWidth * 2);
-  arcBottomLeft.origin = [
-    0 - innerWidth / 2,
-    cellHeight - innerWidth * 2 + innerWidth / 2
-  ];
+  arcBottomLeft.origin = [0 - innerWidth / 2, cellHeight - innerWidth * 2];
 
   var arcBottomRight = new m.models.Oval(innerWidth, innerWidth * 2);
   arcBottomRight.origin = [
     innerWidth + innerWidth / 2,
-    cellHeight - innerWidth * 2 + innerWidth / 2
+    cellHeight - innerWidth * 2
   ];
 
   var arcTopLeft = new m.models.Oval(innerWidth, innerWidth * 2);
-  arcTopLeft.origin = [0 - innerWidth / 2, columnActuatorHeight + cellHeight - innerWidth /2];
+  arcTopLeft.origin = [0 - innerWidth / 2, columnActuatorHeight + cellHeight];
 
   var arcTopRight = new m.models.Oval(innerWidth, innerWidth * 2);
   arcTopRight.origin = [
     innerWidth + innerWidth / 2,
-    columnActuatorHeight + cellHeight - innerWidth /2
+    columnActuatorHeight + cellHeight
   ];
 
   this.models = {
