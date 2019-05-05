@@ -4,15 +4,15 @@ function singleRowActuatorModel(
   columnActuatorWidth,
   columnActuatorHeight,
   numberOfRows,
-  cellWidth,
   cellHeight,
+  cellWidth,
   spaceBetweenDots,
   showRowActuators,
   showPins
 ) {
   var border = new m.models.Oval(
     columnActuatorWidth,
-    columnActuatorHeight + cellHeight * 2
+    columnActuatorHeight + (cellHeight * 2)
   );
 
   var innerWidth = columnActuatorWidth / 2;
@@ -47,22 +47,22 @@ function singleRowActuatorModel(
   var arcBottomLeft = new m.models.Oval(innerWidth, innerWidth * 2);
   arcBottomLeft.origin = [
     0 - innerWidth / 2,
-    cellHeight - spaceBetweenDots * 2
+    cellHeight - innerWidth * 2 + innerWidth / 2
   ];
 
   var arcBottomRight = new m.models.Oval(innerWidth, innerWidth * 2);
   arcBottomRight.origin = [
     innerWidth + innerWidth / 2,
-    cellHeight - spaceBetweenDots * 2
+    cellHeight - innerWidth * 2 + innerWidth / 2
   ];
 
   var arcTopLeft = new m.models.Oval(innerWidth, innerWidth * 2);
-  arcTopLeft.origin = [0 - innerWidth / 2, columnActuatorHeight - cellHeight];
+  arcTopLeft.origin = [0 - innerWidth / 2, columnActuatorHeight + cellHeight - innerWidth /2];
 
   var arcTopRight = new m.models.Oval(innerWidth, innerWidth * 2);
   arcTopRight.origin = [
     innerWidth + innerWidth / 2,
-    columnActuatorHeight - cellHeight
+    columnActuatorHeight + cellHeight - innerWidth /2
   ];
 
   this.models = {
@@ -73,10 +73,10 @@ function singleRowActuatorModel(
     this.models.border = border;
     this.models.topHole = topHole;
     this.models.bottomHole = bottomHole;
-    // this.models.arcBottomLeft = arcBottomLeft;
-    // this.models.arcBottomRight = arcBottomRight;
-    // this.models.arcTopLeft = arcTopLeft;
-    // this.models.arcTopRight = arcTopRight;
+    this.models.arcBottomLeft = arcBottomLeft;
+    this.models.arcBottomRight = arcBottomRight;
+    this.models.arcTopLeft = arcTopLeft;
+    this.models.arcTopRight = arcTopRight;
   }
 
   m.model.combine(
@@ -128,17 +128,6 @@ function brailleGuide(
   var columnActuatorWidth = cellWidth / 2;
   var columnActuatorHeight = cellHeight * numberOfRows;
 
-  var singleRowActuator = new singleRowActuatorModel(
-    columnActuatorWidth,
-    columnActuatorHeight,
-    numberOfRows,
-    cellHeight,
-    cellWidth,
-    spaceBetweenDots,
-    showRowActuators,
-    showPins
-  );
-
   var columnActuators = { models: {} };
   var rowLeft, rowRight;
   for (var i = 0; i < numberOfColumns; i++) {
@@ -169,11 +158,6 @@ function brailleGuide(
     columnActuators.models[i + " rowRight"] = rowRight;
   }
   this.models = {
-    // columnActuators: m.layout.cloneToRow(
-    //   singleRowActuator,
-    //   numberOfColumns * 2,
-    //   0
-    // )
     columnActuators: columnActuators
   };
   if (showPageFrame) {
@@ -192,7 +176,7 @@ brailleGuide.metaParameters = [
     max: 10,
     value: 2
   },
-  { title: "number of rows", type: "range", min: 1, max: 25, value: 3 },
+  { title: "number of rows", type: "range", min: 1, max: 25, value: 1 },
   { title: "number of columns", type: "range", min: 1, max: 40, value: 2 },
   { title: "page width", type: "range", min: 20, max: 210, value: 210 },
   { title: "page height", type: "range", min: 20, max: 297, value: 290 },
