@@ -2,6 +2,8 @@ var singleCellWidth = 3;
 var columnSpacerWidth = 10;
 var cellColumnSpacerWidth = 5;
 var singleColumnWidth = 2 * singleCellWidth + cellColumnSpacerWidth;
+var columnZValue = 7;
+var halfValue = 0.5;
 
 var singleCellHeight = 9;
 var rowSpacerHeight = 10;
@@ -24,38 +26,50 @@ function getDummyColumns(params) {
         var leftColumn = color(html2rgb(params.columnColor),
             difference(
                 union(
-                    cube({ size: [singleCellWidth, height, 7] })
+                    cube({ size: [singleCellWidth, height, columnZValue] })
                 )
             )
-        ).translate([columnSpacerWidth + i * singleColumnWidth + i * columnSpacerWidth, 0, 0.5]);
+        ).translate([columnSpacerWidth + i * singleColumnWidth + i * columnSpacerWidth, 0, halfValue]);
         columns.push(leftColumn);
 
         var rightColumn = color(html2rgb(params.columnColor),
             difference(
                 union(
-                    cube({ size: [singleCellWidth, height, 7] })
+                    cube({ size: [singleCellWidth, height, columnZValue] })
                 )
             )
-        ).translate([columnSpacerWidth + i * (singleColumnWidth + columnSpacerWidth) + (singleCellWidth +cellColumnSpacerWidth), 0, 0.5]);
+        ).translate([columnSpacerWidth + i * (singleColumnWidth + columnSpacerWidth) + (singleCellWidth +cellColumnSpacerWidth), 0, halfValue]);
         columns.push(rightColumn);
     }
     return columns;
 }
 
-function getBase(params) {
+function getBottomBase(params) {
     var height = params.totalRows * singleRowHeight + params.totalRows * rowSpacerHeight;
     var width = params.totalColumns * singleColumnWidth + params.totalColumns * columnSpacerWidth + columnSpacerWidth;
     return color(html2rgb(params.baseBoxColor),
         cube({
-            size: [width,height,0.5]
+            size: [width, height, halfValue]
         })
     );
 }
 
+function getTopBase(params) {
+    var height = params.totalRows * singleRowHeight + params.totalRows * rowSpacerHeight;
+    var width = params.totalColumns * singleColumnWidth + params.totalColumns * columnSpacerWidth + columnSpacerWidth;
+    return color(html2rgb(params.baseBoxColor),
+        cube({
+            size: [width, height, halfValue]
+        })
+    ).translate([0, 0, columnZValue + halfValue]);;
+}
+
 function main(params) {
     var dummyColumns = getDummyColumns(params);
-    var baseBox = getBase(params);
+    var bottomBase = getBottomBase(params);
+    var topBase = getTopBase(params);
 
-    dummyColumns.push(baseBox);
+    dummyColumns.push(bottomBase);
+    dummyColumns.push(topBase);
     return dummyColumns;
 }
