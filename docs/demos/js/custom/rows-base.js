@@ -57,18 +57,21 @@ function getBottomBase(params) {
 function getTopBase(params) {
     var height = params.totalRows * singleRowHeight + params.totalRows * rowSpacerHeight;
     var width = params.totalColumns * singleColumnWidth + params.totalColumns * columnSpacerWidth + columnSpacerWidth;
-    return color(html2rgb(params.baseBoxColor),
-        cube({
-            size: [width, height, halfValue]
-        })
-    ).translate([0, 0, columnZValue + halfValue]);;
+    return difference(
+        color(html2rgb(params.baseBoxColor),
+            cube({
+                size: [width, height, halfValue]
+            })
+        ).translate([0, 0, columnZValue + halfValue]),
+        cylinder({r: 1, h: 10}).translate([12, 10, halfValue])
+    );
 }
 
 function main(params) {
     var dummyColumns = getDummyColumns(params);
     var bottomBase = getBottomBase(params);
     var topBase = getTopBase(params);
-
+ 
     dummyColumns.push(bottomBase);
     dummyColumns.push(topBase);
     return dummyColumns;
