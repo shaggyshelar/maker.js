@@ -14,29 +14,34 @@ function getParameterDefinitions() {
 }
 
 function getMainBase(params) {
-    var width = 11;
-    return color(html2rgb(params.color),
-        difference(
-            union(
-                //base
-            cube({size: [params.unitSize * width, params.unitSize * 7, params.unitSize * 0.5]}),
-            // Top boxes
-            cube({size: [params.unitSize * width, params.unitSize , params.unitSize * 2]}).translate([0,params.unitSize * 7 - params.unitSize,0]),
-            // Right Box
-            cube({size: [params.unitSize, params.unitSize * 7 , params.unitSize * 2]}).translate([params.unitSize * width-params.unitSize,0,0]),
-            // Bottom Boxes
-            cube({size: [params.unitSize * width, params.unitSize , params.unitSize * 2]}).translate([0,0,0]),
-            // Bottom half line
-            cube({size: [params.unitSize * width, params.unitSize , params.unitSize]}).translate([0,params.unitSize,0]),
-            ),
-            union(
-                cube({size: [params.unitSize, params.unitSize * 7, params.unitSize * 3]}).translate([params.unitSize * 2.5,0,params.unitSize]),
-                cube({size: [params.unitSize, params.unitSize * 2, params.unitSize * 3]}).translate([params.unitSize * 2.5,0,0]),
-                cube({size: [params.unitSize, params.unitSize * 2, params.unitSize * 3]}).translate([params.unitSize * 5  + params.unitSize * 0.5,0,0]),
-                cube({size: [params.unitSize, params.unitSize * 7, params.unitSize * 3]}).translate([params.unitSize * 5  + params.unitSize * 0.5,0,params.unitSize])
+    var width = 9;
+    var records = [];
+    for(var i =0; i< params.totalRecords;i++) {
+        var row = color(html2rgb(params.color),
+            difference(
+                union(
+                    //base
+                cube({size: [params.unitSize * width, params.unitSize * 7, params.unitSize * 0.5]}),
+                // Top boxes
+                cube({size: [params.unitSize * width, params.unitSize , params.unitSize * 2]}).translate([0,params.unitSize * 7 - params.unitSize,0]),
+                // Right Box
+                //cube({size: [params.unitSize, params.unitSize * 7 , params.unitSize * 2]}).translate([params.unitSize * width-params.unitSize,0,0]),
+                // Bottom Boxes
+                cube({size: [params.unitSize * width, params.unitSize , params.unitSize * 2]}).translate([0,0,0]),
+                // Bottom half line
+                cube({size: [params.unitSize * width, params.unitSize , params.unitSize]}).translate([0,params.unitSize,0]),
+                ),
+                union(
+                    cube({size: [params.unitSize, params.unitSize * 7, params.unitSize * 3]}).translate([params.unitSize * 2.5,0,params.unitSize]),
+                    cube({size: [params.unitSize, params.unitSize * 2, params.unitSize * 3]}).translate([params.unitSize * 2.5,0,0]),
+                    cube({size: [params.unitSize, params.unitSize * 2, params.unitSize * 3]}).translate([params.unitSize * 5  + params.unitSize * 0.5,0,0]),
+                    cube({size: [params.unitSize, params.unitSize * 7, params.unitSize * 3]}).translate([params.unitSize * 5  + params.unitSize * 0.5,0,params.unitSize])
+                )
             )
-        )
-    )
+        ).translate([i * params.unitSize * 9, 0, 0]);
+        records.push(row);
+    }
+    return records;
 }
 
 function getLeftPin(params) {
@@ -73,7 +78,7 @@ function getRightPin(params) {
 
 function getMovableBase(params) {
     var toReturn = [];
-    for (var i = 0; i <= params.totalRecords; i++) {
+    for (var i = 0; i < params.totalRecords; i++) {
         var newRecord = color(html2rgb(params.movableBaseColor),
             difference(
                 union(
@@ -97,34 +102,11 @@ function getMovableBase(params) {
                     )
                 )
             )
-        ).translate([0, params.unitSize * 2, params.unitSize * 0.5])
+        ).translate([i * params.unitSize * 9, 0, 0]);
+        //.translate([0, params.unitSize * 2, params.unitSize * 0.5])
         toReturn.push(newRecord);
     }
-    //return toReturn;
-    return color(html2rgb(params.movableBaseColor),
-        difference(
-            union(
-                // Base
-                cube({ size: [params.unitSize * 9, params.unitSize * 4, params.unitSize * 0.5] }),
-
-                // Top boxes
-                cube({ size: [params.unitSize * 2.5, params.unitSize * 0.5, params.unitSize] }).translate([0, params.unitSize * 4 - params.unitSize * 0.5, 0]),
-                cube({ size: [params.unitSize * 2, params.unitSize * 0.5, params.unitSize] }).translate([params.unitSize * 3 + params.unitSize * 0.5, params.unitSize * 4 - params.unitSize * 0.5, 0]),
-                cube({ size: [params.unitSize * 2.5, params.unitSize * 0.5, params.unitSize] }).translate([params.unitSize * 6 + params.unitSize * 0.5, params.unitSize * 4 - params.unitSize * 0.5, 0]),
-
-                // bottom boxes
-                difference(
-                    cube({ size: [params.unitSize * 2.5, params.unitSize * 3, params.unitSize * 1.5] }).translate([0, 0, 0]),
-                    cube({ size: [params.unitSize * 0.5, params.unitSize * 2, params.unitSize * 3] }).translate([params.unitSize * 2, params.unitSize / 2, 0])
-                ),
-                cube({ size: [params.unitSize * 2, params.unitSize * 3, params.unitSize * 1.5] }).translate([params.unitSize * 3 + params.unitSize * 0.5, 0, 0]),
-                difference(
-                    cube({ size: [params.unitSize * 2.5, params.unitSize * 3, params.unitSize * 1.5] }).translate([params.unitSize * 6 + params.unitSize * 0.5, 0, 0]),
-                    cube({ size: [params.unitSize * 0.5, params.unitSize * 2, params.unitSize * 3] }).translate([params.unitSize * 6 + params.unitSize * 0.5, params.unitSize / 2, 0])
-                )
-            )
-        )
-    ).translate([0, params.unitSize * 2, params.unitSize * 0.5]);
+    return toReturn;
 }
 
 function getLeftPushPin(params) {
@@ -146,26 +128,23 @@ function getRightPushPin(params) {
 }
 
 function main(params) {
-   var toReturn = [];
-   if (params.showMainBase) {
-    var mainBase =  getMainBase(params);
-    toReturn.push(mainBase);
-   }
-   if (params.showPins) {
-        var leftPin =  getLeftPin(params);
-        var rightPin =  getRightPin(params);
-        toReturn.push(leftPin);
-        toReturn.push(rightPin);
-   }
-   if (params.showRowBase) {
-        var movableBase =  getMovableBase(params);
-        toReturn.push(movableBase);
-   }
-   if (params.showPushPins) {
-        var rightPushPin =  getRightPushPin(params);
-        var leftPushPin =  getLeftPushPin(params);
-        toReturn.push(rightPushPin);
-        toReturn.push(leftPushPin);
-   }
-   return toReturn;
+    var mainBase = getMainBase(params);
+    //var mainBase = getMovableBase(params);
+    if (params.showPins) {
+        var leftPin = getLeftPin(params);
+        var rightPin = getRightPin(params);
+        // toReturn.push(leftPin);
+        // toReturn.push(rightPin);
+    }
+    if (params.showRowBase) {
+        var movableBase = getMovableBase(params);
+        //mainBase.concat(movableBase);
+    }
+    if (params.showPushPins) {
+        var rightPushPin = getRightPushPin(params);
+        var leftPushPin = getLeftPushPin(params);
+        // toReturn.push(rightPushPin);
+        // toReturn.push(leftPushPin);
+    }
+    return mainBase;
 }
