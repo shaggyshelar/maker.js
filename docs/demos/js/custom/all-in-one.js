@@ -1,6 +1,6 @@
 function getParameterDefinitions() {
     return [
-        { name: 'unitSize', type: 'int', initial: 10, caption: 'Unit Size' },
+        { name: 'unitSize', type: 'int', initial: 2, caption: 'Unit Size' },
         { name: 'color', type: 'color', initial: '#ED553B', caption: 'Main Base Color' },
         { name: 'pinColor', type: 'color', initial: '#173F5F', caption: 'Pin Color' },
         { name: 'pushPinColor', type: 'color', initial: '#3CAEA3', caption: 'Push Pin Color' },
@@ -8,7 +8,8 @@ function getParameterDefinitions() {
         { name: 'showMainBase', type: 'checkbox', checked: true, caption: 'Show Main Base' },
         { name: 'showPins', type: 'checkbox', checked: true, caption: 'Show Pins' },
         { name: 'showRowBase', type: 'checkbox', checked: true, caption: 'Show Row Base' },
-        { name: 'showPushPins', type: 'checkbox', checked: true, caption: 'Show Push Pins' }
+        { name: 'showPushPins', type: 'checkbox', checked: true, caption: 'Show Push Pins' },
+        { name: 'totalRecords', type: 'int', initial: 1, caption: 'Total Records' }
     ];
 }
 
@@ -71,6 +72,35 @@ function getRightPin(params) {
 }
 
 function getMovableBase(params) {
+    var toReturn = [];
+    for (var i = 0; i <= params.totalRecords; i++) {
+        var newRecord = color(html2rgb(params.movableBaseColor),
+            difference(
+                union(
+                    // Base
+                    cube({ size: [params.unitSize * 9, params.unitSize * 4, params.unitSize * 0.5] }),
+
+                    // Top boxes
+                    cube({ size: [params.unitSize * 2.5, params.unitSize * 0.5, params.unitSize] }).translate([0, params.unitSize * 4 - params.unitSize * 0.5, 0]),
+                    cube({ size: [params.unitSize * 2, params.unitSize * 0.5, params.unitSize] }).translate([params.unitSize * 3 + params.unitSize * 0.5, params.unitSize * 4 - params.unitSize * 0.5, 0]),
+                    cube({ size: [params.unitSize * 2.5, params.unitSize * 0.5, params.unitSize] }).translate([params.unitSize * 6 + params.unitSize * 0.5, params.unitSize * 4 - params.unitSize * 0.5, 0]),
+
+                    // bottom boxes
+                    difference(
+                        cube({ size: [params.unitSize * 2.5, params.unitSize * 3, params.unitSize * 1.5] }).translate([0, 0, 0]),
+                        cube({ size: [params.unitSize * 0.5, params.unitSize * 2, params.unitSize * 3] }).translate([params.unitSize * 2, params.unitSize / 2, 0])
+                    ),
+                    cube({ size: [params.unitSize * 2, params.unitSize * 3, params.unitSize * 1.5] }).translate([params.unitSize * 3 + params.unitSize * 0.5, 0, 0]),
+                    difference(
+                        cube({ size: [params.unitSize * 2.5, params.unitSize * 3, params.unitSize * 1.5] }).translate([params.unitSize * 6 + params.unitSize * 0.5, 0, 0]),
+                        cube({ size: [params.unitSize * 0.5, params.unitSize * 2, params.unitSize * 3] }).translate([params.unitSize * 6 + params.unitSize * 0.5, params.unitSize / 2, 0])
+                    )
+                )
+            )
+        ).translate([0, params.unitSize * 2, params.unitSize * 0.5])
+        toReturn.push(newRecord);
+    }
+    //return toReturn;
     return color(html2rgb(params.movableBaseColor),
         difference(
             union(
@@ -94,7 +124,7 @@ function getMovableBase(params) {
                 )
             )
         )
-    ).translate([0, params.unitSize * 2, params.unitSize * 0.5])
+    ).translate([0, params.unitSize * 2, params.unitSize * 0.5]);
 }
 
 function getLeftPushPin(params) {
@@ -132,10 +162,10 @@ function main(params) {
         toReturn.push(movableBase);
    }
    if (params.showPushPins) {
-        var rightPin =  getRightPushPin(params);
-        var leftPin =  getLeftPushPin(params);
-        toReturn.push(rightPin);
-        toReturn.push(leftPin);
+        var rightPushPin =  getRightPushPin(params);
+        var leftPushPin =  getLeftPushPin(params);
+        toReturn.push(rightPushPin);
+        toReturn.push(leftPushPin);
    }
    return toReturn;
 }
