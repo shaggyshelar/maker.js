@@ -3,6 +3,7 @@ function getParameterDefinitions() {
         { name: 'unitSize', type: 'int', initial: 2, caption: 'Unit Size' },
         { name: 'color', type: 'color', initial: '#ED553B', caption: 'Main Base Color' },
         { name: 'pinColor', type: 'color', initial: '#173F5F', caption: 'Pin Color' },
+        { name: 'pushPinColor', type: 'color', initial: '#3CAEA3', caption: 'Push Pin Color' },
         { name: 'movableBaseColor', type: 'color', initial: '#F6D55C', caption: 'Movable Base Color' },
         { name: 'totalRecords', type: 'int', initial: 1, caption: 'Total Records' }
     ];
@@ -107,10 +108,32 @@ function getPins(params) {
     return pins;
 }
 
+function getPushPin(params) {
+    var pins = [];
+    for (var i = 0; i < params.totalRecords; i++) {
+        var leftPin = color(html2rgb(params.pushPinColor),
+            union(
+                cube({ size: [params.unitSize, params.unitSize * 4, params.unitSize] }),
+                cube({ size: [params.unitSize * 0.5, params.unitSize, params.unitSize] }).translate([-params.unitSize * 0.5, params.unitSize * 1.5, 0])
+            ).translate([i * params.unitSize * 9 + params.unitSize * 2.5, params.unitSize * 1, params.unitSize])
+        );
+        pins.push(leftPin);
+
+        var rightPin = color(html2rgb(params.pushPinColor),
+            union(
+                cube({size: [params.unitSize, params.unitSize * 4, params.unitSize]}),
+                cube({size: [params.unitSize * 0.5, params.unitSize , params.unitSize]}).translate([params.unitSize,params.unitSize *1.5,0])
+            ).translate([i * params.unitSize * 9 + params.unitSize * 5.5, params.unitSize * 1, params.unitSize])
+        );
+        pins.push(rightPin);
+    }
+    return pins;
+}
+
 function main(params) {
-    var records = [];
     var mainBaseRecords = getMainBase(params);
     var movableBaseRecords = getMovableBase(params);
     var pins = getPins(params);
-    return mainBaseRecords.concat(movableBaseRecords).concat(pins);
+    var pushPins = getPushPin(params);
+    return mainBaseRecords.concat(movableBaseRecords).concat(pins).concat(pushPins);
 }
