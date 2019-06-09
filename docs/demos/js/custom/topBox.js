@@ -24,6 +24,13 @@ function getDummyColumns(params) {
     var height = rowSpacerHeight;
     for (var i = 0; i < params.totalColumns; i++) {
         for (var j = 0; j < params.totalRows; j++) {
+            var leftColumnFiller = color(html2rgb(params.columnColor),
+                difference(
+                    cube({ size: [singleCellWidth, height, columnZValue] })
+                )
+            ).translate([columnSpacerWidth + i * singleColumnWidth + i * columnSpacerWidth, j * singleCellHeight + j * rowSpacerHeight, 0]);
+            columns.push(leftColumnFiller);
+
             var leftColumn = color(html2rgb(params.columnColor),
                 difference(
                     cube({ size: [singleCellWidth, height, columnZValue] }),
@@ -33,6 +40,13 @@ function getDummyColumns(params) {
                 )
             ).translate([columnSpacerWidth + i * singleColumnWidth + i * columnSpacerWidth, j * singleCellHeight + j * rowSpacerHeight + rowSpacerHeight, 0]);
             columns.push(leftColumn);
+
+            var rightColumnFiller = color(html2rgb(params.columnColor),
+                difference(
+                    cube({ size: [singleCellWidth, height, columnZValue] })
+                )
+            ).translate([columnSpacerWidth + i * (singleColumnWidth + columnSpacerWidth) + (singleCellWidth + cellColumnSpacerWidth), j * singleCellHeight + j * rowSpacerHeight, 0]);
+            columns.push(rightColumnFiller);
 
             var rightColumn = color(html2rgb(params.columnColor),
                 difference(
@@ -44,6 +58,21 @@ function getDummyColumns(params) {
             ).translate([columnSpacerWidth + i * (singleColumnWidth + columnSpacerWidth) + (singleCellWidth + cellColumnSpacerWidth), j * singleCellHeight + j * rowSpacerHeight + rowSpacerHeight, 0]);
             columns.push(rightColumn);
         }
+        var leftColumnSpacerFiller = color(html2rgb(params.columnColor),
+            difference(
+                cube({ size: [columnSpacerWidth, 2 * params.totalRows * rowSpacerHeight, columnZValue] })
+            )
+        ).translate([i * columnSpacerWidth + i * singleColumnWidth, 0, 0]);
+        //).translate([i * columnSpacerWidth + 2 * i * singleColumnWidth, 0, 0]);
+        columns.push(leftColumnSpacerFiller);
+
+        var rightColumnSpacerFiller = color(html2rgb(params.columnColor),
+            difference(
+                cube({ size: [cellColumnSpacerWidth, 2 * params.totalRows * rowSpacerHeight, columnZValue] })
+            )
+        ).translate([i * columnSpacerWidth + i * singleColumnWidth + singleCellWidth + 2 * cellColumnSpacerWidth, 0, 0]);
+        //).translate([i * columnSpacerWidth + singleCellWidth + 2 * cellColumnSpacerWidth, 0, 0]);
+        columns.push(rightColumnSpacerFiller);
     }
     return columns;
 }
