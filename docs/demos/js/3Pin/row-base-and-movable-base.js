@@ -84,12 +84,13 @@ function getMovableBaseData(params, totalWidth) {
             ),
 
             // center box
-            cube({ size: [params.unitSize * params.spaceBetweenPins, params.unitSize * 3, params.unitSize * 1.5] }).translate([spacerWidth + params.unitSize, 0, 0]),
-
             difference(
-                cube({ size: [spacerWidth, params.unitSize * 3, params.unitSize * 1.5] }).translate([rightPinStart, 0, 0]),
-                cube({ size: [params.unitSize * 0.5, params.unitSize * 2, params.unitSize * 3] }).translate([rightPinStart, params.unitSize / 2, 0])
-            )
+                cube({ size: [params.unitSize * params.spaceBetweenPins, params.unitSize * 3, params.unitSize * 1.5] }).translate([spacerWidth + params.unitSize, 0, 0]),
+                cube({ size: [params.unitSize * 0.5, params.unitSize * 2, params.unitSize * 3] }).translate([spacerWidth + params.spaceBetweenPins + params.unitSize * 0.5, params.unitSize / 2, 0]),
+            ),
+
+            // right box
+            cube({ size: [spacerWidth, params.unitSize * 3, params.unitSize * 1.5] }).translate([rightPinStart, 0, 0])
         );
     }
 
@@ -109,14 +110,19 @@ function getMovableBaseData(params, totalWidth) {
             cube({ size: [params.unitSize * 0.5, params.unitSize * 2, params.unitSize * 3] }).translate([spacerWidth - 0.5, params.unitSize / 2, 0])
         ),
 
-        // center box
-        cube({ size: [params.unitSize * params.spaceBetweenPins, params.unitSize * 3, params.unitSize * 1.5] }).translate([spacerWidth + params.unitSize, 0, 0]),
-        cube({ size: [params.unitSize * params.spaceBetweenPins, params.unitSize * 3, params.unitSize * 1.5] }).translate([rightPinStart, 0, 0]),
-
+        // center box 1
         difference(
-            cube({ size: [spacerWidth, params.unitSize * 3, params.unitSize * 1.5] }).translate([rightPinStart + params.spaceBetweenPins + params.unitSize, 0, 0]),
-            cube({ size: [params.unitSize * 0.5, params.unitSize * 2, params.unitSize * 3] }).translate([rightPinStart + params.spaceBetweenPins + params.unitSize, params.unitSize / 2, 0])
-        )
+            cube({ size: [params.unitSize * params.spaceBetweenPins, params.unitSize * 3, params.unitSize * 1.5] }).translate([spacerWidth + params.unitSize, 0, 0]),
+            cube({ size: [params.unitSize * 0.5, params.unitSize * 2, params.unitSize * 3] }).translate([spacerWidth + params.spaceBetweenPins + params.unitSize * 0.5, params.unitSize / 2, 0]),
+        ),
+
+        // center box 2
+        difference(
+            cube({ size: [params.unitSize * params.spaceBetweenPins, params.unitSize * 3, params.unitSize * 1.5] }).translate([rightPinStart, 0, 0]),
+            cube({ size: [params.unitSize * 0.5, params.unitSize * 2, params.unitSize * 3] }).translate([rightPinStart + params.spaceBetweenPins - params.unitSize * 0.5, params.unitSize / 2, 0]),
+        ),
+
+        cube({ size: [spacerWidth, params.unitSize * 3, params.unitSize * 1.5] }).translate([rightPinStart + params.spaceBetweenPins + params.unitSize, 0, 0]),
     );
 }
 
