@@ -14,15 +14,18 @@ function getParameterDefinitions() {
 
 // Main Row Base Start
 function getRowMainBase(params, totalWidth) {
+    var numberOfPins = params.isTwoPin ? 2 : 3;
+    var totalWidth = params.unitSize * 2 * params.rowBaseSpacerSize + params.unitSize * params.spaceBetweenPins * (numberOfPins -1) + numberOfPins * params.unitSize + params.unitSize;
+
     return union(
         //base
-        cube({ size: [params.unitSize * totalWidth + params.unitSize, params.unitSize * 7, params.unitSize * 0.5] }),
+        cube({ size: [totalWidth, params.unitSize * 7, params.unitSize * 0.5] }),
         // Top boxes
-        cube({ size: [params.unitSize * totalWidth + params.unitSize, params.unitSize, params.unitSize * 2] }).translate([0, params.unitSize * 7 - params.unitSize, 0]),
+        cube({ size: [totalWidth, params.unitSize, params.unitSize * 2] }).translate([0, params.unitSize * 7 - params.unitSize, 0]),
         // Bottom Boxes
-        cube({ size: [params.unitSize * totalWidth + params.unitSize, params.unitSize, params.unitSize * 2] }).translate([0, 0, 0]),
+        cube({ size: [totalWidth, params.unitSize, params.unitSize * 2] }).translate([0, 0, 0]),
         // Bottom half line
-        cube({ size: [params.unitSize * totalWidth + params.unitSize, params.unitSize, params.unitSize] }).translate([0, params.unitSize, 0])
+        cube({ size: [totalWidth, params.unitSize, params.unitSize] }).translate([0, params.unitSize, 0])
     );
 }
   
@@ -48,16 +51,17 @@ function getRowMainBoxes(params) {
   
 function getRowBase(params) {
     var numberOfPins = params.isTwoPin ? 2 : 3;
-    var totalWidth = (params.unitSize * 2 * params.rowBaseSpacerSize) +
-        (params.unitSize * numberOfPins) +
-        (params.unitSize * (numberOfPins - 1) * params.spaceBetweenPins);
+    // var totalWidth = (params.unitSize * 2 * params.rowBaseSpacerSize) +
+    //     (params.unitSize * numberOfPins) +
+    //     (params.unitSize * (numberOfPins - 1) * params.spaceBetweenPins);
+    var totalWidth = params.unitSize * 2 * params.rowBaseSpacerSize + params.unitSize * params.spaceBetweenPins * (numberOfPins -1) + numberOfPins * params.unitSize + params.unitSize;
 
     var records = [];
     for (var i = 0; i < params.totalRecords; i++) {
         var row = color(html2rgb(params.rowMainBaseColor),
             difference(getRowMainBase(params, totalWidth), getRowMainBoxes(params)
             )
-        ).translate([i * params.unitSize * totalWidth, 0, 0]);
+        ).translate([i * totalWidth, 0, 0]);
         records.push(row);
     }
     return records;
@@ -305,5 +309,6 @@ function main(params) {
     var movableBaseRecords = getMovableBase(params);
     var pins = getPins(params);
     var pushPins = getPushPin(params);
-    return mainBaseRecords.concat(movableBaseRecords).concat(pins).concat(pushPins);
+    return mainBaseRecords;
+    //return mainBaseRecords.concat(movableBaseRecords).concat(pins).concat(pushPins);
 }
