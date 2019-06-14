@@ -1,7 +1,7 @@
 function getParameterDefinitions() {
   return [
       { name: 'unitSize', type: 'int', initial: 1, caption: 'Unit Size' },
-      { name: 'color', type: 'color', initial: '#F6D55C', caption: 'Color?' },
+      { name: 'rowMainBaseColor', type: 'color', initial: '#F6D55C', caption: 'Color?' },
       { name: 'isTwoPin', type: 'checkbox', checked: true, caption: 'Two Pin' },
       { name: 'rowBaseSpacerSize', type: 'float', initial: 3, caption: 'Row Base Spacer Size' },
       { name: 'spaceBetweenPins', type: 'float', initial: 3, caption: 'Space Between Pins' },
@@ -51,7 +51,7 @@ function main(params) {
 
   var records = [];
     for(var i =0; i< params.totalRecords;i++) {
-      var row =  color(html2rgb(params.color),
+      var row =  color(html2rgb(params.rowMainBaseColor),
             difference(getBase(params,totalWidth),getBoxes(params)
           )
       ).translate([i * params.unitSize * totalWidth, 0, 0]);
