@@ -153,39 +153,90 @@ function getPins(params) {
     var pinHeight = 1;
     var pins = [];
     var numberOfPins = params.isTwoPin ? 2: 3;
-    var totalWidth = (params.unitSize * 2 * params.rowBaseSpacerSize) + 
-        (params.unitSize * numberOfPins) + 
-        (params.unitSize * (numberOfPins - 1) * params.spaceBetweenPins);
-    for (var i = 0; i < params.totalRecords; i++) {
-        var leftPin = color(html2rgb(params.pinColor),
-            difference(
-                //base
-                cube({ size: [params.unitSize * 2, params.unitSize * 4, params.unitSize * pinHeight] }),
-                // left cutout
-                cube({ size: [params.unitSize * 0.5, params.unitSize * 2, params.unitSize * pinHeight] }),
-                //right cutout
-                cube({ size: [params.unitSize * 0.5, params.unitSize * 2, params.unitSize * pinHeight] }).translate([params.unitSize * 1.5, 0, 0]),
-                // top cutout
-                cube({ size: [params.unitSize, params.unitSize * 0.5, params.unitSize * 0.5] }).translate([params.unitSize * 0.5, params.unitSize * 0.5, 0])
-            )
-        ).translate([i * totalWidth + params.unitSize * params.rowBaseSpacerSize, params.unitSize * 5, params.unitSize]);
-        pins.push(leftPin);
 
-        var rightPin = color(html2rgb(params.pinColor),
-            difference(
-                //base
-                cube({ size: [params.unitSize * 2, params.unitSize * 4, params.unitSize * pinHeight] }),
-                // left cutout
-                cube({ size: [params.unitSize * 0.5, params.unitSize * 2, params.unitSize * pinHeight] }),
-                //right cutout
-                cube({ size: [params.unitSize * 0.5, params.unitSize * 2, params.unitSize * pinHeight] }).translate([params.unitSize * 1.5, 0, 0]),
-                // top cutout
-                cube({ size: [params.unitSize, params.unitSize * 0.5, params.unitSize * 0.5] }).translate([params.unitSize * 0.5, params.unitSize * 0.5, 0])
-            )
-        ).translate([i * totalWidth + params.unitSize * params.rowBaseSpacerSize + params.spaceBetweenPins + params.unitSize, params.unitSize * 5, params.unitSize]);
-        pins.push(rightPin);
+    if (params.isTwoPin) {
+        var totalWidth = (params.unitSize * 2 * params.rowBaseSpacerSize) +
+            (params.unitSize * numberOfPins) +
+            (params.unitSize * (numberOfPins - 1) * params.spaceBetweenPins);
+        for (var i = 0; i < params.totalRecords; i++) {
+            var leftPin = color(html2rgb(params.pinColor),
+                difference(
+                    //base
+                    cube({ size: [params.unitSize * 2, params.unitSize * 4, params.unitSize * pinHeight] }),
+                    // left cutout
+                    cube({ size: [params.unitSize * 0.5, params.unitSize * 2, params.unitSize * pinHeight] }),
+                    //right cutout
+                    cube({ size: [params.unitSize * 0.5, params.unitSize * 2, params.unitSize * pinHeight] }).translate([params.unitSize * 1.5, 0, 0]),
+                    // top cutout
+                    cube({ size: [params.unitSize, params.unitSize * 0.5, params.unitSize * 0.5] }).translate([params.unitSize * 0.5, params.unitSize * 0.5, 0])
+                )
+            ).translate([i * totalWidth + params.unitSize * params.rowBaseSpacerSize, params.unitSize * 5, params.unitSize]);
+            pins.push(leftPin);
+
+            var rightPin = color(html2rgb(params.pinColor),
+                difference(
+                    //base
+                    cube({ size: [params.unitSize * 2, params.unitSize * 4, params.unitSize * pinHeight] }),
+                    // left cutout
+                    cube({ size: [params.unitSize * 0.5, params.unitSize * 2, params.unitSize * pinHeight] }),
+                    //right cutout
+                    cube({ size: [params.unitSize * 0.5, params.unitSize * 2, params.unitSize * pinHeight] }).translate([params.unitSize * 1.5, 0, 0]),
+                    // top cutout
+                    cube({ size: [params.unitSize, params.unitSize * 0.5, params.unitSize * 0.5] }).translate([params.unitSize * 0.5, params.unitSize * 0.5, 0])
+                )
+            ).translate([i * totalWidth + params.unitSize * params.rowBaseSpacerSize + params.spaceBetweenPins + params.unitSize, params.unitSize * 5, params.unitSize]);
+            pins.push(rightPin);
+        }
+        return pins;
     }
-    return pins;
+
+    var totalWidth = (params.unitSize * 2 * params.rowBaseSpacerSize) +
+            (params.unitSize * numberOfPins) +
+            (params.unitSize * (numberOfPins - 1) * params.spaceBetweenPins);
+        for (var i = 0; i < params.totalRecords; i++) {
+            var leftPin = color(html2rgb(params.pinColor),
+                difference(
+                    //base
+                    cube({ size: [params.unitSize * 2, params.unitSize * 4, params.unitSize * pinHeight] }),
+                    // left cutout
+                    cube({ size: [params.unitSize * 0.5, params.unitSize * 2, params.unitSize * pinHeight] }),
+                    //right cutout
+                    cube({ size: [params.unitSize * 0.5, params.unitSize * 2, params.unitSize * pinHeight] }).translate([params.unitSize * 1.5, 0, 0]),
+                    // top cutout
+                    cube({ size: [params.unitSize, params.unitSize * 0.5, params.unitSize * 0.5] }).translate([params.unitSize * 0.5, params.unitSize * 0.5, 0])
+                )
+            ).translate([i * totalWidth + params.unitSize * params.rowBaseSpacerSize, params.unitSize * 5, params.unitSize]);
+            pins.push(leftPin);
+
+            var centerPin = color(html2rgb(params.pinColor),
+                difference(
+                    //base
+                    cube({ size: [params.unitSize * 2, params.unitSize * 4, params.unitSize * pinHeight] }),
+                    // left cutout
+                    cube({ size: [params.unitSize * 0.5, params.unitSize * 2, params.unitSize * pinHeight] }),
+                    //right cutout
+                    cube({ size: [params.unitSize * 0.5, params.unitSize * 2, params.unitSize * pinHeight] }).translate([params.unitSize * 1.5, 0, 0]),
+                    // top cutout
+                    cube({ size: [params.unitSize, params.unitSize * 0.5, params.unitSize * 0.5] }).translate([params.unitSize * 0.5, params.unitSize * 0.5, 0])
+                )
+            ).translate([i * totalWidth + params.unitSize * params.rowBaseSpacerSize + params.spaceBetweenPins + params.unitSize, params.unitSize * 5, params.unitSize]);
+            pins.push(centerPin);
+
+            var rightPin = color(html2rgb(params.pinColor),
+                difference(
+                    //base
+                    cube({ size: [params.unitSize * 2, params.unitSize * 4, params.unitSize * pinHeight] }),
+                    // left cutout
+                    cube({ size: [params.unitSize * 0.5, params.unitSize * 2, params.unitSize * pinHeight] }),
+                    //right cutout
+                    cube({ size: [params.unitSize * 0.5, params.unitSize * 2, params.unitSize * pinHeight] }).translate([params.unitSize * 1.5, 0, 0]),
+                    // top cutout
+                    cube({ size: [params.unitSize, params.unitSize * 0.5, params.unitSize * 0.5] }).translate([params.unitSize * 0.5, params.unitSize * 0.5, 0])
+                )
+            ).translate([i * totalWidth + 2 * params.unitSize + 2 * params.spaceBetweenPins + params.rowBaseSpacerSize, params.unitSize * 5, params.unitSize]);
+            pins.push(rightPin);
+        }
+        return pins;
 }
 
 // Pins End
