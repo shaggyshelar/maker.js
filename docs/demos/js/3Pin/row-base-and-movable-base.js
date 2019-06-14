@@ -240,10 +240,47 @@ function getPins(params) {
 }
 
 // Pins End
+
+// Push Pin Start
+
+function getPushPin(params) {
+    var pins = [];
+    var numberOfPins = params.isTwoPin ? 2: 3;
+    var totalWidth = (params.unitSize * 2 * params.rowBaseSpacerSize) +
+            (params.unitSize * numberOfPins) +
+            (params.unitSize * (numberOfPins - 1) * params.spaceBetweenPins);
+    for (var i = 0; i < params.totalRecords; i++) {
+        var leftPin = color(html2rgb(params.pushPinColor),
+            union(
+                cube({ size: [params.unitSize, params.unitSize * 4, params.unitSize] }),
+                cube({ size: [params.unitSize * 0.5, params.unitSize, params.unitSize] }).translate([-params.unitSize * 0.5, params.unitSize * 1.5, 0])
+            ).translate([i * totalWidth + params.unitSize * params.rowBaseSpacerSize + params.unitSize * 0.5, params.unitSize * 1, params.unitSize])
+        );
+        pins.push(leftPin);
+
+        var rightPin = color(html2rgb(params.pushPinColor),
+            union(
+                cube({ size: [params.unitSize, params.unitSize * 4, params.unitSize] }),
+                cube({ size: [params.unitSize * 0.5, params.unitSize, params.unitSize] }).translate([-params.unitSize * 0.5, params.unitSize * 1.5, 0])
+            ).translate([i * totalWidth + params.unitSize * params.rowBaseSpacerSize + params.spaceBetweenPins + params.unitSize + params.unitSize * 0.5, params.unitSize * 1, params.unitSize])
+        );
+        // var rightPin = color(html2rgb(params.pushPinColor),
+        //     union(
+        //         cube({size: [params.unitSize, params.unitSize * 4, params.unitSize]}),
+        //         cube({size: [params.unitSize * 0.5, params.unitSize , params.unitSize]}).translate([params.unitSize,params.unitSize *1.5,0])
+        //     ).translate([i * totalWidth + params.unitSize * params.rowBaseSpacerSize + params.spaceBetweenPins + params.unitSize, params.unitSize * 1, params.unitSize])
+        // );
+        pins.push(rightPin);
+    }
+    return pins;
+}
+
+// Push Pin End
   
 function main(params) {
     var mainBaseRecords = getRowBase(params);
     var movableBaseRecords = getMovableBase(params);
     var pins = getPins(params);
-    return mainBaseRecords.concat(movableBaseRecords).concat(pins);
+    var pushPins = getPushPin(params);
+    return mainBaseRecords.concat(movableBaseRecords).concat(pins).concat(pushPins);
 }
