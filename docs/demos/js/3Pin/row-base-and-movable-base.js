@@ -245,10 +245,31 @@ function getPins(params) {
 
 function getPushPin(params) {
     var pins = [];
-    var numberOfPins = params.isTwoPin ? 2: 3;
+    var numberOfPins = params.isTwoPin ? 2 : 3;
     var totalWidth = (params.unitSize * 2 * params.rowBaseSpacerSize) +
-            (params.unitSize * numberOfPins) +
-            (params.unitSize * (numberOfPins - 1) * params.spaceBetweenPins);
+        (params.unitSize * numberOfPins) +
+        (params.unitSize * (numberOfPins - 1) * params.spaceBetweenPins);
+    if (params.isTwoPin) {
+        for (var i = 0; i < params.totalRecords; i++) {
+            var leftPin = color(html2rgb(params.pushPinColor),
+                union(
+                    cube({ size: [params.unitSize, params.unitSize * 4, params.unitSize] }),
+                    cube({ size: [params.unitSize * 0.5, params.unitSize, params.unitSize] }).translate([-params.unitSize * 0.5, params.unitSize * 1.5, 0])
+                ).translate([i * totalWidth + params.unitSize * params.rowBaseSpacerSize + params.unitSize * 0.5, params.unitSize * 1, params.unitSize])
+            );
+            pins.push(leftPin);
+
+            var rightPin = color(html2rgb(params.pushPinColor),
+                union(
+                    cube({ size: [params.unitSize, params.unitSize * 4, params.unitSize] }),
+                    cube({ size: [params.unitSize * 0.5, params.unitSize, params.unitSize] }).translate([-params.unitSize * 0.5, params.unitSize * 1.5, 0])
+                ).translate([i * totalWidth + params.unitSize * params.rowBaseSpacerSize + params.spaceBetweenPins + params.unitSize + params.unitSize * 0.5, params.unitSize * 1, params.unitSize])
+            );
+            pins.push(rightPin);
+        }
+        return pins;
+    }
+
     for (var i = 0; i < params.totalRecords; i++) {
         var leftPin = color(html2rgb(params.pushPinColor),
             union(
@@ -258,18 +279,20 @@ function getPushPin(params) {
         );
         pins.push(leftPin);
 
-        var rightPin = color(html2rgb(params.pushPinColor),
+        var centerPin = color(html2rgb(params.pushPinColor),
             union(
                 cube({ size: [params.unitSize, params.unitSize * 4, params.unitSize] }),
                 cube({ size: [params.unitSize * 0.5, params.unitSize, params.unitSize] }).translate([-params.unitSize * 0.5, params.unitSize * 1.5, 0])
             ).translate([i * totalWidth + params.unitSize * params.rowBaseSpacerSize + params.spaceBetweenPins + params.unitSize + params.unitSize * 0.5, params.unitSize * 1, params.unitSize])
         );
-        // var rightPin = color(html2rgb(params.pushPinColor),
-        //     union(
-        //         cube({size: [params.unitSize, params.unitSize * 4, params.unitSize]}),
-        //         cube({size: [params.unitSize * 0.5, params.unitSize , params.unitSize]}).translate([params.unitSize,params.unitSize *1.5,0])
-        //     ).translate([i * totalWidth + params.unitSize * params.rowBaseSpacerSize + params.spaceBetweenPins + params.unitSize, params.unitSize * 1, params.unitSize])
-        // );
+        pins.push(centerPin);
+
+        var rightPin = color(html2rgb(params.pushPinColor),
+            union(
+                cube({ size: [params.unitSize, params.unitSize * 4, params.unitSize] }),
+                cube({ size: [params.unitSize * 0.5, params.unitSize, params.unitSize] }).translate([-params.unitSize * 0.5, params.unitSize * 1.5, 0])
+            ).translate([i * totalWidth + 2 * params.unitSize  + 2 * params.spaceBetweenPins + params.rowBaseSpacerSize + params.unitSize * 0.5, params.unitSize * 1, params.unitSize])
+        );
         pins.push(rightPin);
     }
     return pins;
