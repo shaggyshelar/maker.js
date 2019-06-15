@@ -16,8 +16,22 @@ function getParameterDefinitions() {
   }
 
 // Main Row Base Start
-function getRowMainBase(params, totalWidth) {
-    return union(
+function getRowMainBase(params, totalWidth, isFirstCell) {
+    if (isFirstCell) {
+        return union(        
+            // Left Closing
+            cube({ size: [params.unitSize, params.unitSize * 7, params.unitSize * 2.5] }).translate([-1*params.unitSize,0, 0]),
+            //base
+            cube({ size: [params.unitSize * totalWidth + params.unitSize, params.unitSize * 7, params.unitSize * 0.5] }),
+            // Top boxes
+            cube({ size: [params.unitSize * totalWidth + params.unitSize, params.unitSize, params.unitSize * 2] }).translate([0, params.unitSize * 7 - params.unitSize, 0]),
+            // Bottom Boxes
+            cube({ size: [params.unitSize * totalWidth + params.unitSize, params.unitSize, params.unitSize * 2] }).translate([0, 0, 0]),
+            // Bottom half line
+            cube({ size: [params.unitSize * totalWidth + params.unitSize, params.unitSize, params.unitSize] }).translate([0, params.unitSize, 0])
+        );
+    }
+    return union(        
         //base
         cube({ size: [params.unitSize * totalWidth + params.unitSize, params.unitSize * 7, params.unitSize * 0.5] }),
         // Top boxes
@@ -58,7 +72,7 @@ function getRowBase(params) {
     var records = [];
     for (var i = 0; i < params.totalRecords; i++) {
         var row = color(html2rgb(params.rowMainBaseColor),
-            difference(getRowMainBase(params, totalWidth), getRowMainBoxes(params)
+            difference(getRowMainBase(params, totalWidth, i==0), getRowMainBoxes(params)
             )
         ).translate([i * params.unitSize * totalWidth, 0, 0]);
         records.push(row);
@@ -80,7 +94,7 @@ function getMovableBaseData(params, totalWidth) {
             // Top boxes
             cube({ size: [spacerWidth, params.unitSize * 0.5, params.unitSize] }).translate([0, params.unitSize * 4 - params.unitSize * 0.5, 0]),
             cube({ size: [params.spaceBetweenPins, params.unitSize * 0.5, params.unitSize] }).translate([spacerWidth + params.unitSize, params.unitSize * 4 - params.unitSize * 0.5, 0]),
-            cube({ size: [spacerWidth, params.unitSize * 0.5, params.unitSize] }).translate([rightPinStart, params.unitSize * 4 - params.unitSize * 0.5, 0]),
+            //cube({ size: [spacerWidth, params.unitSize * 0.5, params.unitSize] }).translate([rightPinStart, params.unitSize * 4 - params.unitSize * 0.5, 0]),
 
             // bottom boxes
             difference(
@@ -95,7 +109,7 @@ function getMovableBaseData(params, totalWidth) {
             ),
 
             // right box
-            cube({ size: [spacerWidth, params.unitSize * 3, params.unitSize * 1.5] }).translate([rightPinStart, 0, 0])
+            cube({ size: [spacerWidth, params.unitSize * 4, params.unitSize * 1.5] }).translate([rightPinStart, 0, 0])
         );
     }
 
@@ -107,7 +121,7 @@ function getMovableBaseData(params, totalWidth) {
         cube({ size: [spacerWidth, params.unitSize * 0.5, params.unitSize] }).translate([0, params.unitSize * 4 - params.unitSize * 0.5, 0]),
         cube({ size: [params.spaceBetweenPins, params.unitSize * 0.5, params.unitSize] }).translate([spacerWidth + params.unitSize, params.unitSize * 4 - params.unitSize * 0.5, 0]),
         cube({ size: [params.spaceBetweenPins, params.unitSize * 0.5, params.unitSize] }).translate([rightPinStart, params.unitSize * 4 - params.unitSize * 0.5, 0]),
-        cube({ size: [spacerWidth, params.unitSize * 0.5, params.unitSize] }).translate([rightPinStart + params.spaceBetweenPins + params.unitSize, params.unitSize * 4 - params.unitSize * 0.5, 0]),
+        //cube({ size: [spacerWidth, params.unitSize * 0.5, params.unitSize] }).translate([rightPinStart + params.spaceBetweenPins + params.unitSize, params.unitSize * 4 - params.unitSize * 0.5, 0]),
 
         // bottom boxes
         difference(
@@ -127,7 +141,7 @@ function getMovableBaseData(params, totalWidth) {
             cube({ size: [params.unitSize * 0.5, params.unitSize * 2, params.unitSize * 3] }).translate([rightPinStart + params.spaceBetweenPins - params.unitSize * 0.5, params.unitSize / 2, 0]),
         ),
 
-        cube({ size: [spacerWidth, params.unitSize * 3, params.unitSize * 1.5] }).translate([rightPinStart + params.spaceBetweenPins + params.unitSize, 0, 0]),
+        cube({ size: [spacerWidth, params.unitSize * 4, params.unitSize * 1.5] }).translate([rightPinStart + params.spaceBetweenPins + params.unitSize, 0, 0]),
     );
 }
 
