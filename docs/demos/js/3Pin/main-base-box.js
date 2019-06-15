@@ -3,6 +3,7 @@ var threePinYValue = 17;
 var zValueWithoutPinHeight = 7;
 var zValueWithPinHeight = 9;
 var xValue = 2.5;
+var baseZValue = 1;
 
 function getParameterDefinitions() {
     return [
@@ -30,13 +31,13 @@ function getColumns(params) {
     for (var i = 0; i < params.numberOfColumns; i++) {
         var leftColumnCell = color(
             html2rgb(params.cellColor),
-            union(cube({ size: [params.unitSize * xValue, params.unitSize * params.numberOfRows * singleCellYValue, params.unitSize * zValueWithoutPinHeight] })).translate([i * singleColumnWidth, 0, 0])
+            union(cube({ size: [params.unitSize * xValue, params.unitSize * params.numberOfRows * singleCellYValue, params.unitSize * zValueWithoutPinHeight] })).translate([i * singleColumnWidth, 0, baseZValue])
         );
         columns.push(leftColumnCell);
     
         var rightColumnCell = color(
             html2rgb(params.cellColor),
-            cube({ size: [params.unitSize * xValue, params.unitSize * params.numberOfRows * singleCellYValue, params.unitSize * zValueWithoutPinHeight] }).translate([i * singleColumnWidth + params.unitSize * xValue + params.spaceBetweenColumnCells, 0, 0])
+            cube({ size: [params.unitSize * xValue, params.unitSize * params.numberOfRows * singleCellYValue, params.unitSize * zValueWithoutPinHeight] }).translate([i * singleColumnWidth + params.unitSize * xValue + params.spaceBetweenColumnCells, 0, baseZValue])
         );
         columns.push(rightColumnCell);
     }
@@ -49,37 +50,49 @@ function getBaseBox(params) {
     var singleColumnWidth = 2 * xValue + params.spaceBetweenColumnCells + params.spaceBetweenColumns;
 
     return color(
-      html2rgb(params.baseColor),
-      union(
-        cube({
-          size: [
-            params.unitSize * xValue,
-            params.unitSize * params.numberOfRows * singleCellYValue,
-            params.unitSize * zValueWithoutPinHeight
-          ]
-            }).translate([(params.spaceBetweenColumns + xValue) * -1, 0, 0]),
-        cube({
-            size: [
-              params.unitSize * xValue,
-              params.unitSize * params.numberOfRows * singleCellYValue,
-              params.unitSize * zValueWithoutPinHeight
-            ]
-          }).translate([(singleColumnWidth * params.numberOfColumns ), 0, 0]),
-          cube({
-            size: [
-                singleColumnWidth * params.numberOfColumns + singleColumnWidth - params.unitSize,
-                params.unitSize,
-                params.unitSize * zValueWithoutPinHeight
-            ]
-          }).translate([(params.spaceBetweenColumns + xValue) * -1, params.numberOfRows * pinYValue, 0]),
-          cube({
-            size: [
-                singleColumnWidth * params.numberOfColumns + singleColumnWidth - params.unitSize,
-                params.unitSize,
-                params.unitSize * zValueWithoutPinHeight
-            ]
-          }).translate([(params.spaceBetweenColumns + xValue) * -1, params.unitSize * -1, 0])
-      )
+        html2rgb(params.baseColor),
+        union(
+            // Left Border
+            cube({
+                size: [
+                    params.unitSize * xValue,
+                    params.unitSize * params.numberOfRows * singleCellYValue,
+                    params.unitSize * zValueWithoutPinHeight
+                ]
+            }).translate([(params.spaceBetweenColumns + xValue) * -1, 0, baseZValue]),
+            // Right Border
+            cube({
+                size: [
+                    params.unitSize * xValue,
+                    params.unitSize * params.numberOfRows * singleCellYValue,
+                    params.unitSize * zValueWithoutPinHeight
+                ]
+            }).translate([(singleColumnWidth * params.numberOfColumns), 0, baseZValue]),
+            // Top Border
+            cube({
+                size: [
+                    singleColumnWidth * (params.numberOfColumns) + params.spaceBetweenColumns + 2 * xValue,
+                    params.unitSize,
+                    params.unitSize * zValueWithoutPinHeight
+                ]
+            }).translate([(params.spaceBetweenColumns + xValue) * -1, params.numberOfRows * pinYValue, baseZValue]),
+            // Bottom Border
+            cube({
+                size: [
+                    singleColumnWidth * (params.numberOfColumns) + params.spaceBetweenColumns + 2 * xValue,
+                    params.unitSize,
+                    params.unitSize * zValueWithoutPinHeight
+                ]
+            }).translate([(params.spaceBetweenColumns + xValue) * -1, params.unitSize * -1, baseZValue]),
+            // Base Box
+            cube({
+                size: [
+                    singleColumnWidth * (params.numberOfColumns) + params.spaceBetweenColumns + 2 * xValue,
+                    params.unitSize * params.numberOfRows * singleCellYValue + 2 * params.unitSize,
+                    baseZValue
+                ]
+            }).translate([(params.spaceBetweenColumns + xValue) * -1, params.unitSize * -1, 0]),
+        )
     );
 }
 
