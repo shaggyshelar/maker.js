@@ -13,7 +13,7 @@ function getParameterDefinitions() {
         { name: 'isPreview', type: 'checkbox', checked: true, caption: 'Preview Mode' },
         { name: 'hideTopPanel', type: 'checkbox', checked: true, caption: 'Hide Top Panel' },
     ];
-  }
+}
 
 // Main Row Base Start
 function getRowMainBase(params, totalWidth, isFirstCell) {
@@ -72,8 +72,7 @@ function getRowBase(params) {
     var records = [];
     for (var i = 0; i < params.totalRecords; i++) {
         var row = color(html2rgb(params.rowMainBaseColor),
-            difference(getRowMainBase(params, totalWidth, i==0), getRowMainBoxes(params)
-            )
+            difference(getRowMainBase(params, totalWidth, i==0), getRowMainBoxes(params))
         ).translate([i * params.unitSize * totalWidth, 0, 0]);
         records.push(row);
     }
