@@ -5,27 +5,27 @@ function getParameterDefinitions() {
         { name: 'movableBaseColor', type: 'color', initial: '#ED553B', caption: 'Row Movable Base Color' },
         { name: 'pinColor', type: 'color', initial: '#173F5F', caption: 'Pin Color' },
         { name: 'pushPinColor', type: 'color', initial: '#3CAEA3', caption: 'Push Pin Color' },
+        { name: 'rowClosePanelColor', type: 'color', initial: '#F6D55C', caption: 'Row Close Panel Color' },
         { name: 'isTwoPin', type: 'checkbox', checked: true, caption: 'Two Pin' },
         { name: 'rowBaseSpacerSize', type: 'float', initial: 3, caption: 'Row Base Spacer Size' },
         { name: 'spaceBetweenPins', type: 'float', initial: 3, caption: 'Space Between Pins' },
-        { name: 'totalRecords', type: 'int', initial: 1, caption: 'Total Records' }
+        { name: 'totalRecords', type: 'int', initial: 1, caption: 'Total Records' },
+        { name: 'isPreview', type: 'checkbox', checked: true, caption: 'Preview Mode' },
+        { name: 'hideTopPanel', type: 'checkbox', checked: true, caption: 'Hide Top Panel' },
     ];
   }
 
 // Main Row Base Start
 function getRowMainBase(params, totalWidth) {
-    var numberOfPins = params.isTwoPin ? 2 : 3;
-    var totalWidth = params.unitSize * 2 * params.rowBaseSpacerSize + params.unitSize * params.spaceBetweenPins * (numberOfPins -1) + numberOfPins * params.unitSize + params.unitSize;
-
     return union(
         //base
-        cube({ size: [totalWidth, params.unitSize * 7, params.unitSize * 0.5] }),
+        cube({ size: [params.unitSize * totalWidth + params.unitSize, params.unitSize * 7, params.unitSize * 0.5] }),
         // Top boxes
-        cube({ size: [totalWidth, params.unitSize, params.unitSize * 2] }).translate([0, params.unitSize * 7 - params.unitSize, 0]),
+        cube({ size: [params.unitSize * totalWidth + params.unitSize, params.unitSize, params.unitSize * 2] }).translate([0, params.unitSize * 7 - params.unitSize, 0]),
         // Bottom Boxes
-        cube({ size: [totalWidth, params.unitSize, params.unitSize * 2] }).translate([0, 0, 0]),
+        cube({ size: [params.unitSize * totalWidth + params.unitSize, params.unitSize, params.unitSize * 2] }).translate([0, 0, 0]),
         // Bottom half line
-        cube({ size: [totalWidth, params.unitSize, params.unitSize] }).translate([0, params.unitSize, 0])
+        cube({ size: [params.unitSize * totalWidth + params.unitSize, params.unitSize, params.unitSize] }).translate([0, params.unitSize, 0])
     );
 }
   
@@ -51,17 +51,16 @@ function getRowMainBoxes(params) {
   
 function getRowBase(params) {
     var numberOfPins = params.isTwoPin ? 2 : 3;
-    // var totalWidth = (params.unitSize * 2 * params.rowBaseSpacerSize) +
-    //     (params.unitSize * numberOfPins) +
-    //     (params.unitSize * (numberOfPins - 1) * params.spaceBetweenPins);
-    var totalWidth = params.unitSize * 2 * params.rowBaseSpacerSize + params.unitSize * params.spaceBetweenPins * (numberOfPins -1) + numberOfPins * params.unitSize + params.unitSize;
+    var totalWidth = (params.unitSize * 2 * params.rowBaseSpacerSize) +
+        (params.unitSize * numberOfPins) +
+        (params.unitSize * (numberOfPins - 1) * params.spaceBetweenPins);
 
     var records = [];
     for (var i = 0; i < params.totalRecords; i++) {
         var row = color(html2rgb(params.rowMainBaseColor),
             difference(getRowMainBase(params, totalWidth), getRowMainBoxes(params)
             )
-        ).translate([i * totalWidth, 0, 0]);
+        ).translate([i * params.unitSize * totalWidth, 0, 0]);
         records.push(row);
     }
     return records;
@@ -301,14 +300,33 @@ function getPushPin(params) {
     }
     return pins;
 }
-
 // Push Pin End
-  
+
+// Row Close Panel Start
+
+function getRowClosePanel(params) {
+    if (params.hideTopPanel) {
+        return [];
+    }
+    var numberOfPins = params.isTwoPin ? 2 : 3;
+    var totalWidth = (params.unitSize * 2 * params.rowBaseSpacerSize) +
+        (params.unitSize * numberOfPins) +
+        (params.unitSize * (numberOfPins - 1) * params.spaceBetweenPins);
+        //rowClosePanelColor
+    return color(html2rgb(params.rowClosePanelColor),
+        //base
+        cube({ size: [params.unitSize * totalWidth * params.totalRecords + params.unitSize, params.unitSize * 7, params.unitSize * 0.5] }).translate([0, 0, params.unitSize * 2]),
+    );
+}
+
+// Row Close Panel End
+
 function main(params) {
     var mainBaseRecords = getRowBase(params);
     var movableBaseRecords = getMovableBase(params);
+    var rowClosePanel = getRowClosePanel(params);
     var pins = getPins(params);
     var pushPins = getPushPin(params);
-    return mainBaseRecords;
-    //return mainBaseRecords.concat(movableBaseRecords).concat(pins).concat(pushPins);
+    
+    return mainBaseRecords.concat(movableBaseRecords).concat(rowClosePanel).concat(pins).concat(pushPins);
 }
