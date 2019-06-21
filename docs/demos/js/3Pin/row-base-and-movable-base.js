@@ -102,6 +102,7 @@ function getMovableLastTwoPin(params,totalWidth,spacerWidth,rightPinStart) {
         difference(
             cube({ size: [params.unitSize * params.spaceBetweenPins, params.unitSize * 3, params.unitSize * 1.5] }).translate([spacerWidth + params.unitSize, 0, 0]),
             cube({ size: [params.unitSize * params.spaceBetweenPins, params.unitSize * 2, params.unitSize * 3] }).translate([spacerWidth + params.unitSize, params.unitSize / 2, 0]),
+            cube({ size: [params.unitSize * ( params.spaceBetweenPins - 2), params.unitSize * 4, params.unitSize * 3] }).translate([spacerWidth + 2 * params.unitSize, 0, 0]),
         ),
 
         // right box
@@ -137,6 +138,7 @@ function getMovableFirstTwoPin(params,totalWidth,spacerWidth,rightPinStart) {
         difference(
             cube({ size: [params.unitSize * params.spaceBetweenPins, params.unitSize * 3, params.unitSize * 1.5] }).translate([spacerWidth + params.unitSize, 0, 0]),
             cube({ size: [params.unitSize * params.spaceBetweenPins, params.unitSize * 2, params.unitSize * 3] }).translate([spacerWidth + params.unitSize, params.unitSize / 2, 0]),
+            cube({ size: [params.unitSize * ( params.spaceBetweenPins - 2), params.unitSize * 4, params.unitSize * 3] }).translate([spacerWidth + 2 * params.unitSize, 0, 0]),
         ),
 
         // right box
@@ -165,12 +167,14 @@ function getMovableLastThreePin(params,totalWidth,spacerWidth,rightPinStart) {
         difference(
             cube({ size: [params.unitSize * params.spaceBetweenPins, params.unitSize * 3, params.unitSize * 1.5] }).translate([spacerWidth + params.unitSize, 0, 0]),
             cube({ size: [params.unitSize * params.spaceBetweenPins, params.unitSize * 2, params.unitSize * 3] }).translate([spacerWidth + params.unitSize, params.unitSize / 2, 0]),
+            cube({ size: [params.unitSize * ( params.spaceBetweenPins - 2), params.unitSize * 4, params.unitSize * 3] }).translate([spacerWidth + 2 * params.unitSize, 0, 0]),
         ),
 
         // center box 2
         difference(
             cube({ size: [params.unitSize * params.spaceBetweenPins, params.unitSize * 3, params.unitSize * 1.5] }).translate([rightPinStart, 0, 0]),
             cube({ size: [params.unitSize * params.spaceBetweenPins, params.unitSize * 2, params.unitSize * 3] }).translate([rightPinStart, params.unitSize / 2, 0]),
+            cube({ size: [params.unitSize * ( params.spaceBetweenPins - 2), params.unitSize * 4, params.unitSize * 3] }).translate([rightPinStart + params.unitSize, 0, 0]),
         ),
 
         // Right Box
@@ -208,12 +212,14 @@ function getMovableFirstThreePin(params,totalWidth,spacerWidth,rightPinStart) {
         difference(
             cube({ size: [params.unitSize * params.spaceBetweenPins, params.unitSize * 3, params.unitSize * 1.5] }).translate([spacerWidth + params.unitSize, 0, 0]),
             cube({ size: [params.unitSize * params.spaceBetweenPins, params.unitSize * 2, params.unitSize * 3] }).translate([spacerWidth + params.unitSize, params.unitSize / 2, 0]),
+            cube({ size: [params.unitSize * ( params.spaceBetweenPins - 2), params.unitSize * 4, params.unitSize * 3] }).translate([spacerWidth + 2 * params.unitSize, 0, 0]),
         ),
 
         // center box 2
         difference(
             cube({ size: [params.unitSize * params.spaceBetweenPins, params.unitSize * 3, params.unitSize * 1.5] }).translate([rightPinStart, 0, 0]),
             cube({ size: [params.unitSize * params.spaceBetweenPins, params.unitSize * 2, params.unitSize * 3] }).translate([rightPinStart, params.unitSize / 2, 0]),
+            cube({ size: [params.unitSize * ( params.spaceBetweenPins - 2), params.unitSize * 4, params.unitSize * 3] }).translate([rightPinStart + params.unitSize, 0, 0]),
         ),
 
         // Right Box
@@ -259,6 +265,7 @@ function getMovableBaseData(params, totalWidth, isFirstPin = false, isLastPin = 
             difference(
                 cube({ size: [params.unitSize * params.spaceBetweenPins, params.unitSize * 3, params.unitSize * 1.5] }).translate([spacerWidth + params.unitSize, 0, 0]),
                 cube({ size: [params.unitSize * params.spaceBetweenPins, params.unitSize * 2, params.unitSize * 3] }).translate([spacerWidth + params.unitSize, params.unitSize / 2, 0]),
+                cube({ size: [params.unitSize * ( params.spaceBetweenPins - 2), params.unitSize * 4, params.unitSize * 3] }).translate([spacerWidth + 2 * params.unitSize, 0, 0])
             ),
 
             // right box
@@ -294,12 +301,14 @@ function getMovableBaseData(params, totalWidth, isFirstPin = false, isLastPin = 
         difference(
             cube({ size: [params.unitSize * params.spaceBetweenPins, params.unitSize * 3, params.unitSize * 1.5] }).translate([spacerWidth + params.unitSize, 0, 0]),
             cube({ size: [params.unitSize * params.spaceBetweenPins, params.unitSize * 2, params.unitSize * 3] }).translate([spacerWidth + params.unitSize, params.unitSize / 2, 0]),
+            cube({ size: [params.unitSize * ( params.spaceBetweenPins - 2), params.unitSize * 4, params.unitSize * 3] }).translate([spacerWidth + 2 * params.unitSize, 0, 0]),
         ),
 
         // center box 2
         difference(
             cube({ size: [params.unitSize * params.spaceBetweenPins, params.unitSize * 3, params.unitSize * 1.5] }).translate([rightPinStart, 0, 0]),
             cube({ size: [params.unitSize * params.spaceBetweenPins, params.unitSize * 2, params.unitSize * 3] }).translate([rightPinStart, params.unitSize / 2, 0]),
+            cube({ size: [params.unitSize * ( params.spaceBetweenPins - 2), params.unitSize * 4, params.unitSize * 3] }).translate([rightPinStart + params.unitSize, 0, 0]),
         ),
 
         // Right Box
