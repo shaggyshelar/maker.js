@@ -6,10 +6,10 @@ function getParameterDefinitions() {
         { name: 'pinColor', type: 'color', initial: '#173F5F', caption: 'Pin Color' },
         { name: 'pushPinColor', type: 'color', initial: '#3CAEA3', caption: 'Push Pin Color' },
         { name: 'rowClosePanelColor', type: 'color', initial: '#F6D55C', caption: 'Row Close Panel Color' },
-        { name: 'isTwoPin', type: 'checkbox', checked: true, caption: 'Two Pin' },
-        { name: 'rowBaseSpacerSize', type: 'float', initial: 3, caption: 'Row Base Spacer Size' },
+        { name: 'isThreePin', type: 'checkbox', checked: true, caption: 'Three Pin' },
+        { name: 'rowBaseSpacerSize', type: 'float', initial: 5, caption: 'Row Base Spacer Size' },
         { name: 'spaceBetweenPins', type: 'float', initial: 3, caption: 'Space Between Pins' },
-        { name: 'totalRecords', type: 'int', initial: 1, caption: 'Total Records' },
+        { name: 'totalRecords', type: 'int', initial: 2, caption: 'Total Records' },
         { name: 'isPreview', type: 'checkbox', checked: true, caption: 'Preview Mode' },
         { name: 'hideTopPanel', type: 'checkbox', checked: true, caption: 'Hide Top Panel' },
     ];
@@ -44,7 +44,7 @@ function getRowMainBase(params, totalWidth, isFirstCell) {
 }
   
 function getRowMainBoxes(params) {
-    if (params.isTwoPin) {
+    if (!params.isThreePin) {
         return union(
             cube({ size: [params.unitSize, params.unitSize * 7, params.unitSize * 3] }).translate([params.unitSize * params.rowBaseSpacerSize + params.unitSize * 0.5, 0, params.unitSize]),
             cube({ size: [params.unitSize, params.unitSize * 2, params.unitSize * 3] }).translate([params.unitSize * params.rowBaseSpacerSize + params.unitSize * 0.5, 0, 0]),
@@ -64,7 +64,7 @@ function getRowMainBoxes(params) {
 }
   
 function getRowBase(params) {
-    var numberOfPins = params.isTwoPin ? 2 : 3;
+    var numberOfPins = params.isThreePin ? 3 : 2;
     var totalWidth = (params.unitSize * 2 * params.rowBaseSpacerSize) +
         (params.unitSize * numberOfPins) +
         (params.unitSize * (numberOfPins - 1) * params.spaceBetweenPins);
@@ -226,15 +226,15 @@ function getMovableBaseData(params, totalWidth, isFirstPin = false, isLastPin = 
     var rightPinStart = spacerWidth + params.spaceBetweenPins + 2 * params.unitSize;
 
     if (isFirstPin) {
-        return params.isTwoPin ? getMovableFirstTwoPin(params,totalWidth,spacerWidth,rightPinStart) : getMovableFirstThreePin(params,totalWidth,spacerWidth,rightPinStart);
+        return !params.isThreePin ? getMovableFirstTwoPin(params,totalWidth,spacerWidth,rightPinStart) : getMovableFirstThreePin(params,totalWidth,spacerWidth,rightPinStart);
     }
 
     if (isLastPin) {
-        return params.isTwoPin ? getMovableLastTwoPin(params,totalWidth,spacerWidth,rightPinStart) : getMovableLastThreePin(params,totalWidth,spacerWidth,rightPinStart);
+        return !params.isThreePin ? getMovableLastTwoPin(params,totalWidth,spacerWidth,rightPinStart) : getMovableLastThreePin(params,totalWidth,spacerWidth,rightPinStart);
     }
 
 
-    if (params.isTwoPin) {
+    if (!params.isThreePin) {
         return union(
 
             // Left Closing
@@ -312,7 +312,7 @@ function getMovableBaseData(params, totalWidth, isFirstPin = false, isLastPin = 
 
 function getMovableBase(params) {
     var records = [];
-    var numberOfPins = params.isTwoPin ? 2: 3;
+    var numberOfPins = params.isThreePin ? 3: 2;
     var totalWidth = (params.unitSize * 2 * params.rowBaseSpacerSize) + 
         (params.unitSize * numberOfPins) + 
         (params.unitSize * (numberOfPins - 1) * params.spaceBetweenPins);
@@ -334,9 +334,9 @@ function getMovableBase(params) {
 function getPins(params) {
     var pinHeight = 1;
     var pins = [];
-    var numberOfPins = params.isTwoPin ? 2: 3;
+    var numberOfPins = params.isThreePin ? 3: 2;
 
-    if (params.isTwoPin) {
+    if (!params.isThreePin) {
         var totalWidth = (params.unitSize * 2 * params.rowBaseSpacerSize) +
             (params.unitSize * numberOfPins) +
             (params.unitSize * (numberOfPins - 1) * params.spaceBetweenPins);
@@ -427,11 +427,11 @@ function getPins(params) {
 
 function getPushPin(params) {
     var pins = [];
-    var numberOfPins = params.isTwoPin ? 2 : 3;
+    var numberOfPins = params.isThreePin ? 3 : 2;
     var totalWidth = (params.unitSize * 2 * params.rowBaseSpacerSize) +
         (params.unitSize * numberOfPins) +
         (params.unitSize * (numberOfPins - 1) * params.spaceBetweenPins);
-    if (params.isTwoPin) {
+    if (!params.isThreePin) {
         for (var i = 0; i < params.totalRecords; i++) {
             var leftPin = color(html2rgb(params.pushPinColor),
                 union(
@@ -487,7 +487,7 @@ function getRowClosePanel(params) {
     if (params.hideTopPanel) {
         return [];
     }
-    var numberOfPins = params.isTwoPin ? 2 : 3;
+    var numberOfPins = params.isThreePin ? 3 : 2;
     var totalWidth = (params.unitSize * 2 * params.rowBaseSpacerSize) +
         (params.unitSize * numberOfPins) +
         (params.unitSize * (numberOfPins - 1) * params.spaceBetweenPins);
