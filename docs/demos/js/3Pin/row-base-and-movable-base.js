@@ -109,7 +109,7 @@ function getMovableLastTwoPin(params,totalWidth,spacerWidth,rightPinStart) {
         cube({ size: [params.unitSize * 0.5, params.unitSize * 4, params.unitSize * 1.5] }).translate([rightPinStart, 0, 0]),
 
         // Right Closing
-        cube({ size: [params.unitSize, params.unitSize * 4, params.unitSize * 2] }).translate([rightPinStart + 3.5 * params.unitSize,0, 0])            
+        cube({ size: [params.unitSize, params.unitSize * 4, params.unitSize * 2] }).translate([params.unitSize * totalWidth + params.unitSize,0, 0])            
     );
 }
 
@@ -181,8 +181,7 @@ function getMovableLastThreePin(params,totalWidth,spacerWidth,rightPinStart) {
         cube({ size: [params.unitSize * 0.5, params.unitSize * 4, params.unitSize * 1.5] }).translate([rightPinStart + params.spaceBetweenPins + params.unitSize, 0, 0]),
 
         // Right Closing
-        cube({ size: [params.unitSize, params.unitSize * 4, params.unitSize * 2] }).translate([rightPinStart + 7.5 * params.unitSize,0, 0])            
-
+        cube({ size: [params.unitSize, params.unitSize * 4, params.unitSize * 2] }).translate([params.unitSize * totalWidth + params.unitSize,0, 0])
     );
 }
 
