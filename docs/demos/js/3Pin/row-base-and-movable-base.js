@@ -9,7 +9,7 @@ function getParameterDefinitions() {
         { name: 'isThreePin', type: 'checkbox', checked: true, caption: 'Three Pin' },
         { name: 'rowBaseSpacerSize', type: 'float', initial: 5, caption: 'Row Base Spacer Size' },
         { name: 'spaceBetweenPins', type: 'float', initial: 3, caption: 'Space Between Pins' },
-        { name: 'totalRecords', type: 'int', initial: 2, caption: 'Total Records' },
+        { name: 'totalRecords', type: 'int', initial: 1, caption: 'Total Records' },
         { name: 'isPreview', type: 'checkbox', checked: true, caption: 'Preview Mode' },
         { name: 'hideTopPanel', type: 'checkbox', checked: true, caption: 'Hide Top Panel' },
     ];
@@ -95,13 +95,13 @@ function getMovableLastTwoPin(params,totalWidth,spacerWidth,rightPinStart) {
         // bottom boxes
         difference(
             cube({ size: [spacerWidth, params.unitSize * 3, params.unitSize * 1.5] }).translate([0, 0, 0]),
-            cube({ size: [params.unitSize * 0.5, params.unitSize * 2, params.unitSize * 3] }).translate([spacerWidth - 0.5, params.unitSize / 2, 0])
+            cube({ size: [spacerWidth, params.unitSize * 2, params.unitSize * 3] }).translate([0, params.unitSize / 2, 0])
         ),
 
         // center box
         difference(
             cube({ size: [params.unitSize * params.spaceBetweenPins, params.unitSize * 3, params.unitSize * 1.5] }).translate([spacerWidth + params.unitSize, 0, 0]),
-            cube({ size: [params.unitSize * 0.5, params.unitSize * 2, params.unitSize * 3] }).translate([spacerWidth + params.spaceBetweenPins + params.unitSize * 0.5, params.unitSize / 2, 0]),
+            cube({ size: [params.unitSize * params.spaceBetweenPins, params.unitSize * 2, params.unitSize * 3] }).translate([spacerWidth + params.unitSize, params.unitSize / 2, 0]),
         ),
 
         // right box
@@ -130,13 +130,13 @@ function getMovableFirstTwoPin(params,totalWidth,spacerWidth,rightPinStart) {
         // bottom boxes
         difference(
             cube({ size: [spacerWidth, params.unitSize * 3, params.unitSize * 1.5] }).translate([0, 0, 0]),
-            cube({ size: [params.unitSize * 0.5, params.unitSize * 2, params.unitSize * 3] }).translate([spacerWidth - 0.5, params.unitSize / 2, 0])
+            cube({ size: [spacerWidth, params.unitSize * 2, params.unitSize * 3] }).translate([0, params.unitSize / 2, 0])
         ),
 
         // center box
         difference(
             cube({ size: [params.unitSize * params.spaceBetweenPins, params.unitSize * 3, params.unitSize * 1.5] }).translate([spacerWidth + params.unitSize, 0, 0]),
-            cube({ size: [params.unitSize * 0.5, params.unitSize * 2, params.unitSize * 3] }).translate([spacerWidth + params.spaceBetweenPins + params.unitSize * 0.5, params.unitSize / 2, 0]),
+            cube({ size: [params.unitSize * params.spaceBetweenPins, params.unitSize * 2, params.unitSize * 3] }).translate([spacerWidth + params.unitSize, params.unitSize / 2, 0]),
         ),
 
         // right box
@@ -158,19 +158,19 @@ function getMovableLastThreePin(params,totalWidth,spacerWidth,rightPinStart) {
         // bottom boxes
         difference(
             cube({ size: [spacerWidth, params.unitSize * 3, params.unitSize * 1.5] }).translate([0, 0, 0]),
-            cube({ size: [params.unitSize * 0.5, params.unitSize * 2, params.unitSize * 3] }).translate([spacerWidth - 0.5, params.unitSize / 2, 0])
+            cube({ size: [spacerWidth, params.unitSize * 2, params.unitSize * 3] }).translate([0, params.unitSize / 2, 0])
         ),
 
         // center box 1
         difference(
             cube({ size: [params.unitSize * params.spaceBetweenPins, params.unitSize * 3, params.unitSize * 1.5] }).translate([spacerWidth + params.unitSize, 0, 0]),
-            cube({ size: [params.unitSize * 0.5, params.unitSize * 2, params.unitSize * 3] }).translate([spacerWidth + params.spaceBetweenPins + params.unitSize * 0.5, params.unitSize / 2, 0]),
+            cube({ size: [params.unitSize * params.spaceBetweenPins, params.unitSize * 2, params.unitSize * 3] }).translate([spacerWidth + params.unitSize, params.unitSize / 2, 0]),
         ),
 
         // center box 2
         difference(
             cube({ size: [params.unitSize * params.spaceBetweenPins, params.unitSize * 3, params.unitSize * 1.5] }).translate([rightPinStart, 0, 0]),
-            cube({ size: [params.unitSize * 0.5, params.unitSize * 2, params.unitSize * 3] }).translate([rightPinStart + params.spaceBetweenPins - params.unitSize * 0.5, params.unitSize / 2, 0]),
+            cube({ size: [params.unitSize * params.spaceBetweenPins, params.unitSize * 2, params.unitSize * 3] }).translate([rightPinStart, params.unitSize / 2, 0]),
         ),
 
         // Right Box
@@ -201,19 +201,19 @@ function getMovableFirstThreePin(params,totalWidth,spacerWidth,rightPinStart) {
         // bottom boxes
         difference(
             cube({ size: [spacerWidth, params.unitSize * 3, params.unitSize * 1.5] }).translate([0, 0, 0]),
-            cube({ size: [params.unitSize * 0.5, params.unitSize * 2, params.unitSize * 3] }).translate([spacerWidth - 0.5, params.unitSize / 2, 0])
+            cube({ size: [spacerWidth, params.unitSize * 2, params.unitSize * 3] }).translate([0, params.unitSize / 2, 0])
         ),
 
         // center box 1
         difference(
             cube({ size: [params.unitSize * params.spaceBetweenPins, params.unitSize * 3, params.unitSize * 1.5] }).translate([spacerWidth + params.unitSize, 0, 0]),
-            cube({ size: [params.unitSize * 0.5, params.unitSize * 2, params.unitSize * 3] }).translate([spacerWidth + params.spaceBetweenPins + params.unitSize * 0.5, params.unitSize / 2, 0]),
+            cube({ size: [params.unitSize * params.spaceBetweenPins, params.unitSize * 2, params.unitSize * 3] }).translate([spacerWidth + params.unitSize, params.unitSize / 2, 0]),
         ),
 
         // center box 2
         difference(
             cube({ size: [params.unitSize * params.spaceBetweenPins, params.unitSize * 3, params.unitSize * 1.5] }).translate([rightPinStart, 0, 0]),
-            cube({ size: [params.unitSize * 0.5, params.unitSize * 2, params.unitSize * 3] }).translate([rightPinStart + params.spaceBetweenPins - params.unitSize * 0.5, params.unitSize / 2, 0]),
+            cube({ size: [params.unitSize * params.spaceBetweenPins, params.unitSize * 2, params.unitSize * 3] }).translate([rightPinStart, params.unitSize / 2, 0]),
         ),
 
         // Right Box
@@ -252,13 +252,13 @@ function getMovableBaseData(params, totalWidth, isFirstPin = false, isLastPin = 
             // bottom boxes
             difference(
                 cube({ size: [spacerWidth, params.unitSize * 3, params.unitSize * 1.5] }).translate([0, 0, 0]),
-                cube({ size: [params.unitSize * 0.5, params.unitSize * 2, params.unitSize * 3] }).translate([spacerWidth - 0.5, params.unitSize / 2, 0])
+                cube({ size: [spacerWidth, params.unitSize * 2, params.unitSize * 3] }).translate([0, params.unitSize / 2, 0])
             ),
 
             // center box
             difference(
                 cube({ size: [params.unitSize * params.spaceBetweenPins, params.unitSize * 3, params.unitSize * 1.5] }).translate([spacerWidth + params.unitSize, 0, 0]),
-                cube({ size: [params.unitSize * 0.5, params.unitSize * 2, params.unitSize * 3] }).translate([spacerWidth + params.spaceBetweenPins + params.unitSize * 0.5, params.unitSize / 2, 0]),
+                cube({ size: [params.unitSize * params.spaceBetweenPins, params.unitSize * 2, params.unitSize * 3] }).translate([spacerWidth + params.unitSize, params.unitSize / 2, 0]),
             ),
 
             // right box
@@ -287,19 +287,19 @@ function getMovableBaseData(params, totalWidth, isFirstPin = false, isLastPin = 
         // bottom boxes
         difference(
             cube({ size: [spacerWidth, params.unitSize * 3, params.unitSize * 1.5] }).translate([0, 0, 0]),
-            cube({ size: [params.unitSize * 0.5, params.unitSize * 2, params.unitSize * 3] }).translate([spacerWidth - 0.5, params.unitSize / 2, 0])
+            cube({ size: [spacerWidth, params.unitSize * 2, params.unitSize * 3] }).translate([0, params.unitSize / 2, 0])
         ),
 
         // center box 1
         difference(
             cube({ size: [params.unitSize * params.spaceBetweenPins, params.unitSize * 3, params.unitSize * 1.5] }).translate([spacerWidth + params.unitSize, 0, 0]),
-            cube({ size: [params.unitSize * 0.5, params.unitSize * 2, params.unitSize * 3] }).translate([spacerWidth + params.spaceBetweenPins + params.unitSize * 0.5, params.unitSize / 2, 0]),
+            cube({ size: [params.unitSize * params.spaceBetweenPins, params.unitSize * 2, params.unitSize * 3] }).translate([spacerWidth + params.unitSize, params.unitSize / 2, 0]),
         ),
 
         // center box 2
         difference(
             cube({ size: [params.unitSize * params.spaceBetweenPins, params.unitSize * 3, params.unitSize * 1.5] }).translate([rightPinStart, 0, 0]),
-            cube({ size: [params.unitSize * 0.5, params.unitSize * 2, params.unitSize * 3] }).translate([rightPinStart + params.spaceBetweenPins - params.unitSize * 0.5, params.unitSize / 2, 0]),
+            cube({ size: [params.unitSize * params.spaceBetweenPins, params.unitSize * 2, params.unitSize * 3] }).translate([rightPinStart, params.unitSize / 2, 0]),
         ),
 
         // Right Box
@@ -436,7 +436,7 @@ function getPushPin(params) {
             var leftPin = color(html2rgb(params.pushPinColor),
                 union(
                     cube({ size: [params.unitSize, params.unitSize * 4, params.unitSize] }),
-                    cube({ size: [params.unitSize * 0.5, params.unitSize, params.unitSize] }).translate([-params.unitSize * 0.5, params.unitSize * 1.5, 0])
+                    cube({ size: [params.unitSize, params.unitSize, params.unitSize] }).translate([-params.unitSize, params.unitSize * 1.5, 0])
                 ).translate([i * totalWidth + params.unitSize * params.rowBaseSpacerSize + params.unitSize * 0.5, params.unitSize * 1, params.unitSize])
             );
             pins.push(leftPin);
@@ -444,7 +444,7 @@ function getPushPin(params) {
             var rightPin = color(html2rgb(params.pushPinColor),
                 union(
                     cube({ size: [params.unitSize, params.unitSize * 4, params.unitSize] }),
-                    cube({ size: [params.unitSize * 0.5, params.unitSize, params.unitSize] }).translate([-params.unitSize * 0.5, params.unitSize * 1.5, 0])
+                    cube({ size: [params.unitSize, params.unitSize, params.unitSize] }).translate([-params.unitSize, params.unitSize * 1.5, 0])
                 ).translate([i * totalWidth + params.unitSize * params.rowBaseSpacerSize + params.spaceBetweenPins + params.unitSize + params.unitSize * 0.5, params.unitSize * 1, params.unitSize])
             );
             pins.push(rightPin);
@@ -456,7 +456,7 @@ function getPushPin(params) {
         var leftPin = color(html2rgb(params.pushPinColor),
             union(
                 cube({ size: [params.unitSize, params.unitSize * 4, params.unitSize] }),
-                cube({ size: [params.unitSize * 0.5, params.unitSize, params.unitSize] }).translate([-params.unitSize * 0.5, params.unitSize * 1.5, 0])
+                cube({ size: [params.unitSize, params.unitSize, params.unitSize] }).translate([-params.unitSize, params.unitSize * 1.5, 0])
             ).translate([i * totalWidth + params.unitSize * params.rowBaseSpacerSize + params.unitSize * 0.5, params.unitSize * 1, params.unitSize])
         );
         pins.push(leftPin);
@@ -464,7 +464,7 @@ function getPushPin(params) {
         var centerPin = color(html2rgb(params.pushPinColor),
             union(
                 cube({ size: [params.unitSize, params.unitSize * 4, params.unitSize] }),
-                cube({ size: [params.unitSize * 0.5, params.unitSize, params.unitSize] }).translate([-params.unitSize * 0.5, params.unitSize * 1.5, 0])
+                cube({ size: [params.unitSize, params.unitSize, params.unitSize] }).translate([-params.unitSize, params.unitSize * 1.5, 0])
             ).translate([i * totalWidth + params.unitSize * params.rowBaseSpacerSize + params.spaceBetweenPins + params.unitSize + params.unitSize * 0.5, params.unitSize * 1, params.unitSize])
         );
         pins.push(centerPin);
@@ -472,7 +472,7 @@ function getPushPin(params) {
         var rightPin = color(html2rgb(params.pushPinColor),
             union(
                 cube({ size: [params.unitSize, params.unitSize * 4, params.unitSize] }),
-                cube({ size: [params.unitSize * 0.5, params.unitSize, params.unitSize] }).translate([-params.unitSize * 0.5, params.unitSize * 1.5, 0])
+                cube({ size: [params.unitSize , params.unitSize, params.unitSize] }).translate([-params.unitSize, params.unitSize * 1.5, 0])
             ).translate([i * totalWidth + 2 * params.unitSize  + 2 * params.spaceBetweenPins + params.rowBaseSpacerSize + params.unitSize * 0.5, params.unitSize * 1, params.unitSize])
         );
         pins.push(rightPin);
@@ -506,6 +506,5 @@ function main(params) {
     var rowClosePanel = getRowClosePanel(params);
     var pins = getPins(params);
     var pushPins = getPushPin(params);
-    
     return mainBaseRecords.concat(movableBaseRecords).concat(rowClosePanel).concat(pins).concat(pushPins);
 }
