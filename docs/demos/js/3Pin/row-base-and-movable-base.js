@@ -9,6 +9,7 @@ function getParameterDefinitions() {
         { name: 'isThreePin', type: 'checkbox', checked: true, caption: 'Three Pin' },
         { name: 'rowBaseSpacerSize', type: 'float', initial: 5, caption: 'Row Base Spacer Size' },
         { name: 'spaceBetweenPins', type: 'float', initial: 3, caption: 'Space Between Pins' },
+        { name: 'tolerance', type: 'float', initial: 0.1, caption: 'Tolerance' },
         { name: 'totalRecords', type: 'int', initial: 1, caption: 'Total Records' },
         { name: 'isPreview', type: 'checkbox', checked: true, caption: 'Preview Mode' },
         { name: 'hideTopPanel', type: 'checkbox', checked: true, caption: 'Hide Top Panel' },
@@ -28,7 +29,7 @@ function getRowMainBase(params, totalWidth, isFirstCell) {
             // Bottom Boxes
             cube({ size: [params.unitSize * totalWidth + params.unitSize, params.unitSize, params.unitSize * 2] }).translate([0, 0, 0]),
             // Bottom half line
-            cube({ size: [params.unitSize * totalWidth + params.unitSize, params.unitSize, params.unitSize] }).translate([0, params.unitSize, 0])
+            cube({ size: [params.unitSize * totalWidth + params.unitSize, params.unitSize - params.tolerance, params.unitSize] }).translate([0, params.unitSize, 0])
         );
     }
     return union(        
@@ -193,7 +194,7 @@ function getMovableFirstThreePin(params,totalWidth,spacerWidth,rightPinStart) {
 
 
         // Base
-        cube({ size: [params.unitSize * totalWidth + params.unitSize, params.unitSize * 4, params.unitSize * 0.5] }),
+        cube({ size: [params.unitSize * totalWidth + params.unitSize, (params.unitSize * 4), params.unitSize * 0.5] }),
 
         // Top boxes
         cube({ size: [params.unitSize, params.unitSize * 0.5, params.unitSize] }).translate([spacerWidth - params.unitSize, params.unitSize * 4 - params.unitSize * 0.5, 0]),
@@ -356,12 +357,12 @@ function getPins(params) {
                     // left cutout
                     cube({ size: [params.unitSize * 0.5, params.unitSize * 2, params.unitSize * pinHeight] }),
                     //right cutout
-                    cube({ size: [params.unitSize * 0.5, params.unitSize * 2, params.unitSize * pinHeight] }).translate([params.unitSize * 1.5, 0, 0]),
+                    cube({ size: [params.unitSize * 0.5 + params.tolerance, params.unitSize * 2, params.unitSize * pinHeight] }).translate([params.unitSize * 1.5 - params.tolerance, 0, 0]),
                     // top cutout
                     cube({ size: [params.unitSize, params.unitSize * 0.5, params.unitSize * 0.5] }).translate([params.unitSize * 0.5, params.unitSize * 0.5, 0])
                 ),
                 cube({ size: [params.unitSize, params.unitSize * 1.5, params.unitSize] }).translate([params.unitSize * 0.5, params.unitSize * 2.5, 0]),
-                sphere({r: params.unitSize / 2, h: 10}).rotateX(-90).translate([params.unitSize, params.unitSize * 4, params.unitSize / 2])
+                sphere({r: params.unitSize / 2, fn: 50}).rotateX(-90).translate([params.unitSize, params.unitSize * 4, params.unitSize / 2])
             ).translate([i * totalWidth + params.unitSize * params.rowBaseSpacerSize, params.unitSize * 5, params.unitSize]);
             pins.push(leftPin);
 
@@ -372,12 +373,12 @@ function getPins(params) {
                     // left cutout
                     cube({ size: [params.unitSize * 0.5, params.unitSize * 2, params.unitSize * pinHeight] }),
                     //right cutout
-                    cube({ size: [params.unitSize * 0.5, params.unitSize * 2, params.unitSize * pinHeight] }).translate([params.unitSize * 1.5, 0, 0]),
+                    cube({ size: [params.unitSize * 0.5 + params.tolerance, params.unitSize * 2, params.unitSize * pinHeight] }).translate([params.unitSize * 1.5 - params.tolerance, 0, 0]),
                     // top cutout
                     cube({ size: [params.unitSize, params.unitSize * 0.5, params.unitSize * 0.5] }).translate([params.unitSize * 0.5, params.unitSize * 0.5, 0])
                 ),
                 cube({ size: [params.unitSize, params.unitSize * 1.5, params.unitSize] }).translate([params.unitSize * 0.5, params.unitSize * 2.5, 0]),
-                sphere({r: params.unitSize / 2, h: 10}).rotateX(-90).translate([params.unitSize, params.unitSize * 4, params.unitSize / 2])
+                sphere({r: params.unitSize / 2, fn: 50}).rotateX(-90).translate([params.unitSize, params.unitSize * 4, params.unitSize / 2])
             ).translate([i * totalWidth + params.unitSize * params.rowBaseSpacerSize + params.spaceBetweenPins + params.unitSize, params.unitSize * 5, params.unitSize]);
             pins.push(rightPin);
         }
@@ -395,12 +396,12 @@ function getPins(params) {
                     // left cutout
                     cube({ size: [params.unitSize * 0.5, params.unitSize * 2, params.unitSize * pinHeight] }),
                     //right cutout
-                    cube({ size: [params.unitSize * 0.5, params.unitSize * 2, params.unitSize * pinHeight] }).translate([params.unitSize * 1.5, 0, 0]),
+                    cube({ size: [params.unitSize * 0.5 + params.tolerance, params.unitSize * 2, params.unitSize * pinHeight] }).translate([params.unitSize * 1.5 - params.tolerance, 0, 0]),
                     // top cutout
                     cube({ size: [params.unitSize, params.unitSize * 0.5, params.unitSize * 0.5] }).translate([params.unitSize * 0.5, params.unitSize * 0.5, 0])
                 ),
                 cube({ size: [params.unitSize, params.unitSize * 1.5, params.unitSize] }).translate([params.unitSize * 0.5, params.unitSize * 2.5, 0]),
-                sphere({r: params.unitSize / 2, h: 10}).rotateX(-90).translate([params.unitSize, params.unitSize * 4, params.unitSize / 2])
+                sphere({r: params.unitSize / 2, fn: 50}).rotateX(-90).translate([params.unitSize, params.unitSize * 4, params.unitSize / 2])
             ).translate([i * totalWidth + params.unitSize * params.rowBaseSpacerSize, params.unitSize * 5, params.unitSize]);
             pins.push(leftPin);
 
@@ -411,12 +412,12 @@ function getPins(params) {
                     // left cutout
                     cube({ size: [params.unitSize * 0.5, params.unitSize * 2, params.unitSize * pinHeight] }),
                     //right cutout
-                    cube({ size: [params.unitSize * 0.5, params.unitSize * 2, params.unitSize * pinHeight] }).translate([params.unitSize * 1.5, 0, 0]),
+                    cube({ size: [params.unitSize * 0.5 + params.tolerance, params.unitSize * 2, params.unitSize * pinHeight] }).translate([params.unitSize * 1.5 - params.tolerance, 0, 0]),
                     // top cutout
                     cube({ size: [params.unitSize, params.unitSize * 0.5, params.unitSize * 0.5] }).translate([params.unitSize * 0.5, params.unitSize * 0.5, 0])
                 ),
                 cube({ size: [params.unitSize, params.unitSize * 1.5, params.unitSize] }).translate([params.unitSize * 0.5, params.unitSize * 2.5, 0]),
-                sphere({r: params.unitSize / 2, h: 10}).rotateX(-90).translate([params.unitSize, params.unitSize * 4, params.unitSize / 2])
+                sphere({r: params.unitSize / 2, fn: 50}).rotateX(-90).translate([params.unitSize, params.unitSize * 4, params.unitSize / 2])
             ).translate([i * totalWidth + params.unitSize * params.rowBaseSpacerSize + params.spaceBetweenPins + params.unitSize, params.unitSize * 5, params.unitSize]);
             pins.push(centerPin);
 
@@ -427,12 +428,12 @@ function getPins(params) {
                     // left cutout
                     cube({ size: [params.unitSize * 0.5, params.unitSize * 2, params.unitSize * pinHeight] }),
                     //right cutout
-                    cube({ size: [params.unitSize * 0.5, params.unitSize * 2, params.unitSize * pinHeight] }).translate([params.unitSize * 1.5, 0, 0]),
+                    cube({ size: [params.unitSize * 0.5 + params.tolerance, params.unitSize * 2, params.unitSize * pinHeight] }).translate([params.unitSize * 1.5 - params.tolerance, 0, 0]),
                     // top cutout
                     cube({ size: [params.unitSize, params.unitSize * 0.5, params.unitSize * 0.5] }).translate([params.unitSize * 0.5, params.unitSize * 0.5, 0])
                 ),
                 cube({ size: [params.unitSize, params.unitSize * 1.5, params.unitSize] }).translate([params.unitSize * 0.5, params.unitSize * 2.5, 0]),
-                sphere({r: params.unitSize / 2, h: 10}).rotateX(-90).translate([params.unitSize, params.unitSize * 4, params.unitSize / 2])
+                sphere({r: params.unitSize / 2, fn: 50}).rotateX(-90).translate([params.unitSize, params.unitSize * 4, params.unitSize / 2])
             ).translate([i * totalWidth + 2 * params.unitSize + 2 * params.spaceBetweenPins + params.rowBaseSpacerSize, params.unitSize * 5, params.unitSize]);
             pins.push(rightPin);
         }
@@ -473,7 +474,7 @@ function getPushPin(params) {
     for (var i = 0; i < params.totalRecords; i++) {
         var leftPin = color(html2rgb(params.pushPinColor),
             union(
-                cube({ size: [params.unitSize, params.unitSize * 4, params.unitSize] }),
+                cube({ size: [params.unitSize - params.tolerance, params.unitSize * 4, params.unitSize] }),
                 cube({ size: [params.unitSize, params.unitSize, params.unitSize] }).translate([-params.unitSize, params.unitSize * 1.5, 0])
             ).translate([i * totalWidth + params.unitSize * params.rowBaseSpacerSize + params.unitSize * 0.5, params.unitSize * 1, params.unitSize])
         );
@@ -481,7 +482,7 @@ function getPushPin(params) {
 
         var centerPin = color(html2rgb(params.pushPinColor),
             union(
-                cube({ size: [params.unitSize, params.unitSize * 4, params.unitSize] }),
+                cube({ size: [params.unitSize - params.tolerance, params.unitSize * 4, params.unitSize] }),
                 cube({ size: [params.unitSize, params.unitSize, params.unitSize] }).translate([-params.unitSize, params.unitSize * 1.5, 0])
             ).translate([i * totalWidth + params.unitSize * params.rowBaseSpacerSize + params.spaceBetweenPins + params.unitSize + params.unitSize * 0.5, params.unitSize * 1, params.unitSize])
         );
@@ -489,7 +490,7 @@ function getPushPin(params) {
 
         var rightPin = color(html2rgb(params.pushPinColor),
             union(
-                cube({ size: [params.unitSize, params.unitSize * 4, params.unitSize] }),
+                cube({ size: [params.unitSize - params.tolerance, params.unitSize * 4, params.unitSize] }),
                 cube({ size: [params.unitSize , params.unitSize, params.unitSize] }).translate([-params.unitSize, params.unitSize * 1.5, 0])
             ).translate([i * totalWidth + 2 * params.unitSize  + 2 * params.spaceBetweenPins + params.rowBaseSpacerSize + params.unitSize * 0.5, params.unitSize * 1, params.unitSize])
         );
@@ -521,6 +522,8 @@ function getRowClosePanel(params) {
 function main(params) {
     var mainBaseRecords = getRowBase(params);
     var movableBaseRecords = getMovableBase(params);
+    return mainBaseRecords;
+    return mainBaseRecords.concat(movableBaseRecords);
     var rowClosePanel = getRowClosePanel(params);
     var pins = getPins(params);
     var pushPins = getPushPin(params);
