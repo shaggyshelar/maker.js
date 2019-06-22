@@ -12,14 +12,16 @@ function main(params) {
         var row = color(html2rgb(params.pinColor),
         difference(
             //base
-            cube({ size: [params.unitSize * 2, params.unitSize * 4, params.unitSize * pinHeight] }),
+            cube({ size: [params.unitSize * 2, params.unitSize * 2.5, params.unitSize * pinHeight] }),
             // left cutout
             cube({ size: [params.unitSize * 0.5, params.unitSize * 2, params.unitSize * pinHeight] }),
             //right cutout
             cube({ size: [params.unitSize * 0.5, params.unitSize * 2, params.unitSize * pinHeight] }).translate([params.unitSize * 1.5, 0, 0]),
-            // top cutout
-            cube({ size: [params.unitSize, params.unitSize * 0.5, params.unitSize * 0.5] }).translate([params.unitSize * 0.5, params.unitSize * 0.5, 0])
-        )
+            // movable cutout
+            cube({ size: [params.unitSize, params.unitSize, params.unitSize * 0.5] }).translate([params.unitSize * 0.5, params.unitSize * 0.5, 0]),
+        ),
+        cube({ size: [params.unitSize, params.unitSize * 1.5, params.unitSize] }).translate([params.unitSize * 0.5, params.unitSize * 2.5, 0]),
+        sphere({r: params.unitSize / 2, h: 10}).rotateX(-90).translate([params.unitSize, params.unitSize * 4, params.unitSize / 2])
     ).translate([i * params.unitSize * 2, 0, 0]);
         records.push(row);
     }

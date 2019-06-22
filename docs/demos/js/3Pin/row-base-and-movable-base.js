@@ -352,28 +352,32 @@ function getPins(params) {
             var leftPin = color(html2rgb(params.pinColor),
                 difference(
                     //base
-                    cube({ size: [params.unitSize * 2, params.unitSize * 4, params.unitSize * pinHeight] }),
+                    cube({ size: [params.unitSize * 2, params.unitSize * 2.5, params.unitSize * pinHeight] }),
                     // left cutout
                     cube({ size: [params.unitSize * 0.5, params.unitSize * 2, params.unitSize * pinHeight] }),
                     //right cutout
                     cube({ size: [params.unitSize * 0.5, params.unitSize * 2, params.unitSize * pinHeight] }).translate([params.unitSize * 1.5, 0, 0]),
                     // top cutout
                     cube({ size: [params.unitSize, params.unitSize * 0.5, params.unitSize * 0.5] }).translate([params.unitSize * 0.5, params.unitSize * 0.5, 0])
-                )
+                ),
+                cube({ size: [params.unitSize, params.unitSize * 1.5, params.unitSize] }).translate([params.unitSize * 0.5, params.unitSize * 2.5, 0]),
+                sphere({r: params.unitSize / 2, h: 10}).rotateX(-90).translate([params.unitSize, params.unitSize * 4, params.unitSize / 2])
             ).translate([i * totalWidth + params.unitSize * params.rowBaseSpacerSize, params.unitSize * 5, params.unitSize]);
             pins.push(leftPin);
 
             var rightPin = color(html2rgb(params.pinColor),
                 difference(
                     //base
-                    cube({ size: [params.unitSize * 2, params.unitSize * 4, params.unitSize * pinHeight] }),
+                    cube({ size: [params.unitSize * 2, params.unitSize * 2.5, params.unitSize * pinHeight] }),
                     // left cutout
                     cube({ size: [params.unitSize * 0.5, params.unitSize * 2, params.unitSize * pinHeight] }),
                     //right cutout
                     cube({ size: [params.unitSize * 0.5, params.unitSize * 2, params.unitSize * pinHeight] }).translate([params.unitSize * 1.5, 0, 0]),
                     // top cutout
                     cube({ size: [params.unitSize, params.unitSize * 0.5, params.unitSize * 0.5] }).translate([params.unitSize * 0.5, params.unitSize * 0.5, 0])
-                )
+                ),
+                cube({ size: [params.unitSize, params.unitSize * 1.5, params.unitSize] }).translate([params.unitSize * 0.5, params.unitSize * 2.5, 0]),
+                sphere({r: params.unitSize / 2, h: 10}).rotateX(-90).translate([params.unitSize, params.unitSize * 4, params.unitSize / 2])
             ).translate([i * totalWidth + params.unitSize * params.rowBaseSpacerSize + params.spaceBetweenPins + params.unitSize, params.unitSize * 5, params.unitSize]);
             pins.push(rightPin);
         }
@@ -387,42 +391,48 @@ function getPins(params) {
             var leftPin = color(html2rgb(params.pinColor),
                 difference(
                     //base
-                    cube({ size: [params.unitSize * 2, params.unitSize * 4, params.unitSize * pinHeight] }),
+                    cube({ size: [params.unitSize * 2, params.unitSize * 2.5, params.unitSize * pinHeight] }),
                     // left cutout
                     cube({ size: [params.unitSize * 0.5, params.unitSize * 2, params.unitSize * pinHeight] }),
                     //right cutout
                     cube({ size: [params.unitSize * 0.5, params.unitSize * 2, params.unitSize * pinHeight] }).translate([params.unitSize * 1.5, 0, 0]),
                     // top cutout
                     cube({ size: [params.unitSize, params.unitSize * 0.5, params.unitSize * 0.5] }).translate([params.unitSize * 0.5, params.unitSize * 0.5, 0])
-                )
+                ),
+                cube({ size: [params.unitSize, params.unitSize * 1.5, params.unitSize] }).translate([params.unitSize * 0.5, params.unitSize * 2.5, 0]),
+                sphere({r: params.unitSize / 2, h: 10}).rotateX(-90).translate([params.unitSize, params.unitSize * 4, params.unitSize / 2])
             ).translate([i * totalWidth + params.unitSize * params.rowBaseSpacerSize, params.unitSize * 5, params.unitSize]);
             pins.push(leftPin);
 
             var centerPin = color(html2rgb(params.pinColor),
                 difference(
                     //base
-                    cube({ size: [params.unitSize * 2, params.unitSize * 4, params.unitSize * pinHeight] }),
+                    cube({ size: [params.unitSize * 2, params.unitSize * 2.5, params.unitSize * pinHeight] }),
                     // left cutout
                     cube({ size: [params.unitSize * 0.5, params.unitSize * 2, params.unitSize * pinHeight] }),
                     //right cutout
                     cube({ size: [params.unitSize * 0.5, params.unitSize * 2, params.unitSize * pinHeight] }).translate([params.unitSize * 1.5, 0, 0]),
                     // top cutout
                     cube({ size: [params.unitSize, params.unitSize * 0.5, params.unitSize * 0.5] }).translate([params.unitSize * 0.5, params.unitSize * 0.5, 0])
-                )
+                ),
+                cube({ size: [params.unitSize, params.unitSize * 1.5, params.unitSize] }).translate([params.unitSize * 0.5, params.unitSize * 2.5, 0]),
+                sphere({r: params.unitSize / 2, h: 10}).rotateX(-90).translate([params.unitSize, params.unitSize * 4, params.unitSize / 2])
             ).translate([i * totalWidth + params.unitSize * params.rowBaseSpacerSize + params.spaceBetweenPins + params.unitSize, params.unitSize * 5, params.unitSize]);
             pins.push(centerPin);
 
             var rightPin = color(html2rgb(params.pinColor),
                 difference(
                     //base
-                    cube({ size: [params.unitSize * 2, params.unitSize * 4, params.unitSize * pinHeight] }),
+                    cube({ size: [params.unitSize * 2, params.unitSize * 2.5, params.unitSize * pinHeight] }),
                     // left cutout
                     cube({ size: [params.unitSize * 0.5, params.unitSize * 2, params.unitSize * pinHeight] }),
                     //right cutout
                     cube({ size: [params.unitSize * 0.5, params.unitSize * 2, params.unitSize * pinHeight] }).translate([params.unitSize * 1.5, 0, 0]),
                     // top cutout
                     cube({ size: [params.unitSize, params.unitSize * 0.5, params.unitSize * 0.5] }).translate([params.unitSize * 0.5, params.unitSize * 0.5, 0])
-                )
+                ),
+                cube({ size: [params.unitSize, params.unitSize * 1.5, params.unitSize] }).translate([params.unitSize * 0.5, params.unitSize * 2.5, 0]),
+                sphere({r: params.unitSize / 2, h: 10}).rotateX(-90).translate([params.unitSize, params.unitSize * 4, params.unitSize / 2])
             ).translate([i * totalWidth + 2 * params.unitSize + 2 * params.spaceBetweenPins + params.rowBaseSpacerSize, params.unitSize * 5, params.unitSize]);
             pins.push(rightPin);
         }
@@ -511,7 +521,6 @@ function getRowClosePanel(params) {
 function main(params) {
     var mainBaseRecords = getRowBase(params);
     var movableBaseRecords = getMovableBase(params);
-    return movableBaseRecords;
     var rowClosePanel = getRowClosePanel(params);
     var pins = getPins(params);
     var pushPins = getPushPin(params);
